@@ -1,5 +1,4 @@
-/* Reset e Estilo Geral */
-/* Reset básico */
+/* RESET BÁSICO */
 * {
   margin: 0;
   padding: 0;
@@ -7,158 +6,197 @@
 }
 
 body {
-  font-family: Helvetica, sans-serif;
-  background-color: #f4f4f4;
-  background-image: linear-gradient(to right, #a0eaff, #a0ffc0); /* padrão moderno */
+  font-family: 'Helvetica', sans-serif;
+  background:#c0eaf5;
 }
 
-/* -------------------------- HEADER ------------------------------------ */
+/* HEADER */
 .header {
-  background-color: #fff;
-  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, .1);
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
-  top: 0; /* adiciona isso pra garantir que fique no topo */
-  left: 0;
   width: 100%;
-  z-index: 3;
-}
-li{
-  padding: 5px;
-}
-main {
-  padding-top: 80px;
+  top: 0;
+  z-index: 10;
 }
 
-.header ul {
-  margin: 0;
-  padding: 0;
+.header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+}
+
+.logo img {
+  height: 60px;
+}
+
+/* NAVIGATION */
+.menu ul {
   list-style: none;
-  overflow: hidden;
-  background-color: #fff;
+  display: flex;
+  gap: 20px;
 }
 
-.header li a {
-  display: block;
-  padding: 20px 20px;
-  border-right: 1px solid #f4f4f4;
+.menu ul li a {
   text-decoration: none;
-  color: #333; /* Cor de texto padrão */
+  color: #333;
   font-weight: 500;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  padding: 10px 15px;
+  border-radius: 4px;
+  background-color: #f0f4f7;
+  transition: all 0.3s ease;
 }
 
-/* Cor do item do menu */
-.header li a {
-  background-color: #f0f4f7; /* Azul claro */
+.menu ul li a:hover {
+  background-color: #1e90ff;
+  color: #fff;
 }
 
-/* Cor do texto ao passar o mouse */
-.header li a:hover {
-  background-color: #1e90ff; /* Azul vibrante */
-  color: #64da4c; /* Texto branco no hover */
-}
-
-/* Cor da borda de separação entre os itens do menu */
-.header li a:hover,
-.header .menu-btn:hover {
-  background-color: #e6f7ff; /* Azul bem claro */
-}
-
-/* menu */
-
-.header .menu {
-  clear: both;
-  max-height: 0;
-  transition: max-height .2s ease-out;
-  margin-top: 12px;
-}
-
-/* menu icon */
-
-.header .menu-icon {
+/* HAMBURGER MENU */
+.menu-icon {
+  display: none;
   cursor: pointer;
-  display: inline-block;
-  padding: 28px 20px;
-  position: relative;
-  user-select: none;
+  padding: 10px;
 }
 
-.header .menu-icon .navicon {
+.menu-icon .navicon {
   background: #333;
+  height: 3px;
+  width: 25px;
+  position: relative;
   display: block;
-  height: 2px;
-  position: relative;
-  transition: background .2s ease-out;
-  width: 18px;
+  transition: all 0.3s ease;
 }
 
-.header .menu-icon .navicon:before,
-.header .menu-icon .navicon:after {
-  background: #333;
+.menu-icon .navicon::before,
+.menu-icon .navicon::after {
   content: '';
-  display: block;
-  height: 100%;
   position: absolute;
-  transition: all .2s ease-out;
   width: 100%;
+  height: 3px;
+  background: #333;
+  transition: all 0.3s ease;
 }
 
-.header .menu-icon .navicon:before {
-  top: 5px;
+.menu-icon .navicon::before {
+  top: -8px;
 }
 
-.header .menu-icon .navicon:after {
-  top: -5px;
+.menu-icon .navicon::after {
+  top: 8px;
 }
 
-/* menu btn */
-
-.header .menu-btn {
+.menu-toggle {
   display: none;
 }
 
-.header .menu-btn:checked ~ .menu {
-  max-height: 240px;
-}
-
-.header .menu-btn:checked ~ .menu-icon .navicon {
-  background: transparent;
-}
-
-.header .menu-btn:checked ~ .menu-icon .navicon:before {
-  transform: rotate(-45deg);
-}
-
-.header .menu-btn:checked ~ .menu-icon .navicon:after {
-  transform: rotate(45deg);
-}
-
-.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
-.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
-  top: 0;
-}
-
-/* 48em = 768px */
-
-@media (min-width: 48em) {
-  .header li {
-    float: left;
-  }
-  .header li a {
-    padding: 20px 30px;
-    color: #333; /* Cor de texto padrão para links no desktop */
-  }
-  .header .menu {
-    clear: none;
-    float: right;
-    max-height: none;
-  }
-  .header .menu-icon {
+@media (max-width: 768px) {
+  .menu ul {
+    flex-direction: column;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    background: #fff;
     display: none;
   }
+
+  .menu-toggle:checked + .menu-icon .navicon {
+    background: transparent;
+  }
+
+  .menu-toggle:checked + .menu-icon .navicon::before {
+    transform: rotate(-45deg);
+    top: 0;
+  }
+
+  .menu-toggle:checked + .menu-icon .navicon::after {
+    transform: rotate(45deg);
+    top: 0;
+  }
+
+  .menu-toggle:checked ~ nav ul {
+    display: flex;
+  }
+
+  .menu-icon {
+    display: block;
+  }
 }
 
-/* ---------------------------------- Container da Tabela --------------------------------- */
+/* VISIBILIDADE CONDICIONAL */
+.table-desktop {
+  display: block;
+}
+
+.form-mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .table-desktop {
+    display: none;
+  }
+
+  .form-mobile {
+    display: block;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 90%;
+  }
+
+  .form-title {
+    text-align: center;
+    color: #1e90ff;
+    margin-bottom: 15px;
+    font-size: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  .form-mobile button {
+    width: 100%;
+    background-color: #1e90ff;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+  }
+
+  .form-mobile button:hover {
+    background-color: #26e32f;
+  }
+}
+
+/* CONTAINER TABELA */
 .container-tab {
   margin: 120px auto 50px auto;
   max-width: 1200px;
@@ -167,27 +205,23 @@ main {
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-  overflow: hidden;
 }
 
-/* Título sempre do tamanho do container */
+/* TÍTULO */
 h2 {
   text-align: center;
-  color: #ffffff;
+  color: #fff;
   margin-bottom: 20px;
-  background: linear-gradient(90deg, #1e90ff, #32cd32);
+  background: linear-gradient(90deg, #0271e0, #496cab);
   padding: 15px 20px;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   font-size: 26px;
   font-weight: bold;
-  letter-spacing: 1px;
   width: 100%;
-  box-sizing: border-box;
 }
 
-/* Tabela adaptativa */
+/* TABELA */
 .table-responsive {
   width: 100%;
   overflow-x: auto;
@@ -197,9 +231,11 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  min-width: 600px; /* previne quebra em telas muito pequenas */
+  min-width: 600px;
 }
-
+option{
+  margin-top: 5px;
+}
 table th, table td {
   padding: 12px;
   text-align: center;
@@ -207,19 +243,13 @@ table th, table td {
 }
 
 table th {
-  background-color: #1e90ff; /* Azul vibrante */
-  color: #ffffff; /* Texto branco */
-  font-weight: bold;
+  background-color: #1e90ff;
+  color: #fff;
 }
 
 table td {
-  background-color: #e6f7e6; /* Verde muito claro */
-  color: #2b3d4f; /* Texto azul escuro */
-}
-
-table td:hover {
-  background-color: #e6f7e6; /* Removendo o efeito hover verde */
-  color: #2b3d4f; /* Mantendo o texto azul escuro */
+  background-color: #e6f7e6;
+  color: #2b3d4f;
 }
 
 table input, table select {
@@ -232,11 +262,11 @@ table input, table select {
 }
 
 table button {
-  padding: 10px 20px; /* Aumentando o espaçamento */
+  padding: 10px 20px;
   font-size: 14px;
-  margin-top: 10px; /* Adicionando mais espaço abaixo do botão */
-  background-color: #1e90ff; /* Azul vibrante */
-  color: #ffffff;
+  margin-top: 10px;
+  background-color: #1e90ff;
+  color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -244,28 +274,18 @@ table button {
 }
 
 table button:hover {
-  background-color: #ff2d2d; /* Verde brilhante no hover */
+  background-color: #26e32f;
 }
 
-.hover_left:hover{
-  text-decoration-color: black;
-  background-color: #045d6d; 
-  border-bottom: 2px solid #32b6cd;} /* Adciona um hover ao posicionar o mouse em cima e uma linha em baixo */
-
-.hover_right:hover{
-  text-decoration-color: black;
-  background-color: #046d41; 
-  border-bottom: 2px solid #32cd4c;
-}
-
-/* -------------------------------- Footer ---------------------------- */
+/* FOOTER */
 footer {
-  background-color: #2b3d4f; /* Azul escuro */
+  background-color: #2b3d4f;
   color: white;
+  margin-top: 50px;
   text-align: center;
   padding: 20px 0;
   font-size: 14px;
-  position: fixed;
+  position: relative;
   bottom: 0;
   width: 100%;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
@@ -278,36 +298,5 @@ footer a {
 }
 
 footer a:hover {
-  color: #32cd32; /* Verde no hover */
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-  nav {
-    flex-direction: column;
-    height: auto;
-    padding: 20px;
-  }
-
-  nav .nav-left ul, nav .nav-right ul {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  nav .nav-left ul li, nav .nav-right ul li {
-    margin: 10px 0;
-  }
-
-  .container-tab {
-    width: 90%;
-    padding: 20px;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-
-  table {
-    font-size: 14px;
-  }
+  color: #32cd32;
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chave Mestra - Login</title>
+    <link rel="stylesheet" href="/CSS/login.css"> 
+    <link rel="icon" type="image/png" href="/IMG/cmpage.png">
+</head>
+<body>
+
+    <!-- Container de Login -->
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Login</h2>
+
+            <form action="/php/login.php" method="POST">
+
+                <!-- Campo de Matrícula/CPF -->
+                <div class="input-group">
+                    <label for="matricula">Matrícula ou CPF</label>
+                    <input type="text" id="matricula" name="matricula" placeholder="Digite sua matrícula ou CPF" required>
+                </div>
+
+                <!-- Campo de Senha -->
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+                </div>
+
+                <!-- Botão de Login -->
+                <div class="submit-btn">
+                    <button type="submit">Entrar</button>
+                </div>
+            </form>
+
+            <!-- Link para cadastro -->
+            <p class="signup-link">Não tem uma conta? <a href="/Pages/cadastro.html">Cadastre-se</a></p>
+        </div>
+    </div>
+
+</body>
+</html>

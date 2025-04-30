@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="CM.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chave Mestra</title>
+    <link rel="stylesheet" href="/CSS/chaves.css"> 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="/IMG/cmpage.png">
+</head>
+
+
+    <!-- Header fixo -->
+    <main class="pt-24">
+        <header class="fixed top-0 left-0 w-full bg-white shadow z-50">
+            <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+                <!-- Logo -->
+                <a href="/index.html" class="flex items-center">
+                    <img src="/IMG/CM (5).png" alt="Logo" class="h-20 w-auto" />
+                </a>
+
+                <!-- Menu Toggle (mobile) -->
+                <input type="checkbox" id="menu-toggle" class="hidden peer" />
+                <label for="menu-toggle" class="cursor-pointer md:hidden block">
+                    <div class="space-y-1.5">
+                       
+                    </div>
+                </label>
+
+                <!-- Menu -->
+                <nav class="absolute top-full left-0 w-full bg-white shadow-md 
+                         flex-col space-y-2 px-6 py-4
+                         hidden peer-checked:flex 
+                         md:static md:w-auto md:bg-transparent md:shadow-none 
+                         md:flex md:flex-row md:space-x-6 md:space-y-0 md:items-center md:px-0 md:py-0 md:justify-start">
+
+                         <a href="/Pages/contato.html" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Contato</a>
+                         <a href="/Pages/agenda.html" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Agenda</a>
+                         <a href="/Pages/chaves.html" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Chaves</a>
+                         <a href="#contact" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Registro</a>
+                </nav>
+            </div>
+        </header>
+    </main>
+
+
+
+ <!-- Container de Cadastro de Chaves -->
+ <main class="login-container">
+    <div class="login-box">
+        <h2><strong>Cadastro de Chave</strong></h2>
+        <br>
+
+        <!-- Exibe a mensagem de erro ou sucesso -->
+        <!-- Caso você queira mostrar uma mensagem de status, insira aqui, como fizemos anteriormente. -->
+
+        <form action="cadastro_chave.php" method="POST">
+
+            <!-- Campo Número de Identificação -->
+            <div class="input-group">
+                <label for="numero_identificacao">Número de Identificação</label>
+                <input type="text" id="numero_identificacao" name="numero_identificacao" placeholder="Digite o número de identificação da chave" required>
+            </div>
+
+            <!-- Campo Local -->
+            <div class="input-group">
+                <label for="local">Local</label>
+                <input type="text" id="local" name="local" placeholder="Digite o local onde a chave será usada" required>
+            </div>
+
+            <!-- Campo Descrição -->
+            <div class="input-group">
+                <label for="descricao">Descrição</label>
+                <input type="text" id="descricao" name="descricao" placeholder="Descrição da chave" required>
+            </div>
+
+            <!-- Campo Prédio -->
+            <div class="input-group">
+                <label for="predio">Prédio</label>
+                <input type="text" id="predio" name="predio" placeholder="Informe o prédio ao qual a chave pertence" required>
+            </div>
+
+            <!-- Botão de Cadastro -->
+            <div class="submit-btn">
+                <button type="submit">Cadastrar Chave</button>
+            </div>
+        </form>
+
+        <!-- Link para voltar -->
+        <p class="signup-link"><a href="/dashboard.html">Voltar para o painel</a></p>
+    </div>
+</main>
+
+
+
+
+
+
+    <!-- Footer fixo -->
+    <footer class="bg-gray-800 text-white py-6 mt-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <p>&copy; 2025 Chave Mestra | <a href="/Pages/contato.html" class="text-blue-400 hover:text-white">Contato</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>

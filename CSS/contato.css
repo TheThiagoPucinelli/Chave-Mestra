@@ -1,15 +1,18 @@
 /* Reset e Estilo Geral */
 * {
-  padding: 0;
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Cor de fundo do body */
 body {
- 
-  font-family: 'Segoe UI', sans-serif;
+  background-color: #c0e8f5 !important; /* Forçando a cor de fundo */
+  color: #333;
+  line-height: 1.6;
 }
+
 
 /* Navegação */
 nav {
@@ -18,7 +21,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 30px;
+  padding: 0 20px;
   position: fixed;
   top: 0;
   width: 100%;
@@ -26,74 +29,81 @@ nav {
   z-index: 10;
 }
 
+/* Resto do código... */
+
+
 nav .nav-left ul, nav .nav-right ul {
   display: flex;
   list-style-type: none;
 }
 
 nav .nav-left ul li, nav .nav-right ul li {
-  margin-right: 30px;
+  margin-right: 20px;
 }
 
 nav a {
   color: #ffffff;
   text-decoration: none;
   font-size: 16px;
-  padding: 10px;
+  padding: 8px 15px;
   border-radius: 5px;
-  transition: background 0.3s;
+  transition: background 0.3s ease;
 }
 
-.hover_left:hover {
+nav a:hover {
   background-color: #045d6d;
   border-bottom: 2px solid #32b6cd;
-}
-
-.hover_right:hover {
-  background-color: #046d41;
-  border-bottom: 2px solid #32cd4c;
 }
 
 /* Container do Formulário */
 .container {
   margin-top: 120px;
   max-width: 600px;
+  width: 100%;
   background-color: #ffffff;
   padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 h3 {
   text-align: center;
+  color: #333;
+  padding: 10px;
+  background-color: #2b3d4f;
   color: #ffffff;
-  background: linear-gradient(90deg, #1e90ff, #32cd32);
-  padding: 15px 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  font-size: 26px;
+  border-radius: 8px;
+  font-size: 28px;
   font-weight: bold;
-  letter-spacing: 1px;
+  margin-bottom: 20px;
 }
 
 .texts {
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
+  padding: 12px;
+  margin-bottom: 15px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #333;
+  transition: border 0.3s ease;
+}
+
+.texts:focus {
+  border: 1px solid #2b3d4f;
+  outline: none;
 }
 
 button {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   background-color: #1e90ff;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
@@ -116,7 +126,7 @@ footer {
 footer a {
   color: #f5f5f5;
   text-decoration: none;
-  transition: color 0.3s;
+  transition: color 0.3s ease;
 }
 
 footer a:hover {
@@ -126,17 +136,25 @@ footer a:hover {
 /* Responsividade */
 @media (max-width: 768px) {
   nav {
-      flex-direction: column;
-      height: auto;
-      padding: 20px;
+    flex-direction: column;
+    padding: 20px;
+    height: auto;
   }
 
   .container {
-      width: 90%;
-      padding: 20px;
+    width: 90%;
+    padding: 20px;
   }
 
   h3 {
-      font-size: 20px;
+    font-size: 24px;
+  }
+
+  .texts {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
   }
 }

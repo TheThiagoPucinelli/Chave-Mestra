@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chave Mestra - Cadastro</title>
+    <link rel="stylesheet" href="/CSS/login.css">
+    <link rel="icon" type="image/png" href="/IMG/cmpage.png">
+</head>
+<body>
+
+    <!-- Container de Cadastro -->
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Cadastro</h2>
+
+            <form action="/php/cadastro.php" method="POST">
+
+                <!-- Campo Nome -->
+                <div class="input-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+                </div>
+
+                <!-- Campo Sobrenome -->
+                <div class="input-group">
+                    <label for="sobrenome">Sobrenome</label>
+                    <input type="text" id="sobrenome" name="sobrenome" placeholder="Digite seu sobrenome" required>
+                </div>
+
+                <!-- Campo Matrícula/SIEP -->
+                <div class="input-group">
+                    <label for="matricula">Matrícula ou SIEP</label>
+                    <input type="text" id="matricula" name="matricula" placeholder="Digite sua matrícula ou SIEP" required>
+                </div>
+
+                <!-- Campo Senha -->
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+                </div>
+
+                <!-- Campo Confirmar Senha -->
+                <div class="input-group">
+                    <label for="confirmar_senha">Confirmar Senha</label>
+                    <input type="password" id="confirmar_senha" name="confirmar_senha" placeholder="Confirme sua senha" required>
+                </div>
+
+                <!-- Botão de Cadastro -->
+                <div class="submit-btn">
+                    <button type="submit">Cadastrar</button>
+                </div>
+            </form>
+
+            <!-- Link para Login -->
+            <p class="signup-link">Já tem uma conta? <a href="/Pages/login.html">Faça login</a></p>
+        </div>
+    </div>
+
+</body>
+</html>
