@@ -1,0 +1,313 @@
+/* Reset e Estilo Geral */
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Helvetica, sans-serif;
+  background-color: #f4f4f4;
+  background-image: linear-gradient(to right, #a0eaff, #a0ffc0); /* padrão moderno */
+}
+
+/* -------------------------- HEADER ------------------------------------ */
+.header {
+  background-color: #fff;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, .1);
+  position: fixed;
+  top: 0; /* adiciona isso pra garantir que fique no topo */
+  left: 0;
+  width: 100%;
+  z-index: 3;
+}
+li{
+  padding: 5px;
+}
+main {
+  padding-top: 80px;
+}
+
+.header ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.header li a {
+  display: block;
+  padding: 20px 20px;
+  border-right: 1px solid #f4f4f4;
+  text-decoration: none;
+  color: #333; /* Cor de texto padrão */
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Cor do item do menu */
+.header li a {
+  background-color: #f0f4f7; /* Azul claro */
+}
+
+/* Cor do texto ao passar o mouse */
+.header li a:hover {
+  background-color: #1e90ff; /* Azul vibrante */
+  color: #64da4c; /* Texto branco no hover */
+}
+
+/* Cor da borda de separação entre os itens do menu */
+.header li a:hover,
+.header .menu-btn:hover {
+  background-color: #e6f7ff; /* Azul bem claro */
+}
+
+/* menu */
+
+.header .menu {
+  clear: both;
+  max-height: 0;
+  transition: max-height .2s ease-out;
+  margin-top: 12px;
+}
+
+/* menu icon */
+
+.header .menu-icon {
+  cursor: pointer;
+  display: inline-block;
+  padding: 28px 20px;
+  position: relative;
+  user-select: none;
+}
+
+.header .menu-icon .navicon {
+  background: #333;
+  display: block;
+  height: 2px;
+  position: relative;
+  transition: background .2s ease-out;
+  width: 18px;
+}
+
+.header .menu-icon .navicon:before,
+.header .menu-icon .navicon:after {
+  background: #333;
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  transition: all .2s ease-out;
+  width: 100%;
+}
+
+.header .menu-icon .navicon:before {
+  top: 5px;
+}
+
+.header .menu-icon .navicon:after {
+  top: -5px;
+}
+
+/* menu btn */
+
+.header .menu-btn {
+  display: none;
+}
+
+.header .menu-btn:checked ~ .menu {
+  max-height: 240px;
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon {
+  background: transparent;
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon:before {
+  transform: rotate(-45deg);
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon:after {
+  transform: rotate(45deg);
+}
+
+.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
+.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
+  top: 0;
+}
+
+/* 48em = 768px */
+
+@media (min-width: 48em) {
+  .header li {
+    float: left;
+  }
+  .header li a {
+    padding: 20px 30px;
+    color: #333; /* Cor de texto padrão para links no desktop */
+  }
+  .header .menu {
+    clear: none;
+    float: right;
+    max-height: none;
+  }
+  .header .menu-icon {
+    display: none;
+  }
+}
+
+/* ---------------------------------- Container da Tabela --------------------------------- */
+.container-tab {
+  margin: 120px auto 50px auto;
+  max-width: 1200px;
+  width: 90%;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Título sempre do tamanho do container */
+h2 {
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #1e90ff, #32cd32);
+  padding: 15px 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-size: 26px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Tabela adaptativa */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  min-width: 600px; /* previne quebra em telas muito pequenas */
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+table th {
+  background-color: #1e90ff; /* Azul vibrante */
+  color: #ffffff; /* Texto branco */
+  font-weight: bold;
+}
+
+table td {
+  background-color: #e6f7e6; /* Verde muito claro */
+  color: #2b3d4f; /* Texto azul escuro */
+}
+
+table td:hover {
+  background-color: #e6f7e6; /* Removendo o efeito hover verde */
+  color: #2b3d4f; /* Mantendo o texto azul escuro */
+}
+
+table input, table select {
+  padding: 8px;
+  width: 90%;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+table button {
+  padding: 10px 20px; /* Aumentando o espaçamento */
+  font-size: 14px;
+  margin-top: 10px; /* Adicionando mais espaço abaixo do botão */
+  background-color: #1e90ff; /* Azul vibrante */
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+table button:hover {
+  background-color: #ff2d2d; /* Verde brilhante no hover */
+}
+
+.hover_left:hover{
+  text-decoration-color: black;
+  background-color: #045d6d; 
+  border-bottom: 2px solid #32b6cd;} /* Adciona um hover ao posicionar o mouse em cima e uma linha em baixo */
+
+.hover_right:hover{
+  text-decoration-color: black;
+  background-color: #046d41; 
+  border-bottom: 2px solid #32cd4c;
+}
+
+/* -------------------------------- Footer ---------------------------- */
+footer {
+  background-color: #2b3d4f; /* Azul escuro */
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 14px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+footer a {
+  color: #f5f5f5;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+footer a:hover {
+  color: #32cd32; /* Verde no hover */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+  }
+
+  nav .nav-left ul, nav .nav-right ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav .nav-left ul li, nav .nav-right ul li {
+    margin: 10px 0;
+  }
+
+  .container-tab {
+    width: 90%;
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+}
