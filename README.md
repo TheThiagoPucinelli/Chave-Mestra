@@ -19,7 +19,7 @@ A ausência de um sistema informatizado gerava dificuldades na rastreabilidade d
 - Leonardo Oliveira Garcia  
 - 📚 **Orientador:** João Ladislau Barbará Lopes  
 - 🏫 **Instituição:** Instituto Federal Sul-Rio-Grandense – Campus Pelotas Visconde da Graça (IFSUL CAVG)  
-- 📅 **Data de Conclusão:** 26 de junho de 2025
+- 📅 **Data de Conclusão:** undefined
 
 ---
 
