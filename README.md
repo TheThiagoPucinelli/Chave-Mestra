@@ -1,163 +1,124 @@
-# 🔐 Chave Mestra – Sistema de Controle de Chaves
+# 🔐 Chave Mestra – Sistema de Controle de Chaves / Master Key – Key Management System
 
-Sistema Web para controle e gerenciamento do uso de chaves físicas no Instituto Federal Sul-Rio-Grandense – Campus Pelotas Visconde da Graça (IFSUL CAVG).  
-Desenvolvido como **Trabalho de Conclusão de Curso (TCC)** por **Thiago Pucinelli** e **Leonardo Oliveira**.
-
----
-
-## 📘 Sobre o Projeto
-
-**Chave Mestra** é uma aplicação web desenvolvida com o propósito de digitalizar e modernizar o processo de controle de chaves de salas e laboratórios da instituição, substituindo o método manual (papel e caneta) por um sistema informatizado, seguro, eficiente e intuitivo.
-
-A ausência de um sistema informatizado gerava dificuldades na rastreabilidade das chaves, extravios, erros manuais e lentidão nos processos. Através desta solução, busca-se proporcionar mais praticidade, segurança, organização e controle.
+> 🇧🇷 Sistema web desenvolvido para controle de chaves físicas no IFSUL CAVG  
+> 🇺🇸 Web-based system for managing physical keys at IFSUL CAVG
 
 ---
 
-## 🧑‍💻 Autores
+## 📘 Sobre o Projeto | About the Project
+
+### 🇧🇷 Português
+
+**Chave Mestra** é um sistema web criado para informatizar o controle de chaves de salas e laboratórios do Instituto Federal Sul-Rio-Grandense – Campus Pelotas Visconde da Graça (IFSUL CAVG), substituindo o processo manual por uma solução digital eficiente e segura.
+
+### 🇺🇸 English
+
+**Master Key** is a web-based system created to digitize the management of room and lab keys at the Federal Institute of Southern Rio Grande do Sul – Campus Pelotas Visconde da Graça (IFSUL CAVG), replacing the manual process with a secure and efficient digital solution.
+
+---
+
+## 🧑‍💻 Autores | Authors
 
 - Thiago Pucinelli Aires da Silva  
 - Leonardo Oliveira Garcia  
-- 📚 **Orientador:** João Ladislau Barbará Lopes  
-- 🏫 **Instituição:** Instituto Federal Sul-Rio-Grandense – Campus Pelotas Visconde da Graça (IFSUL CAVG)  
-- 📅 **Data de Conclusão:** undefined
+- 📚 **Orientador | Advisor:** João Ladislau Barbará Lopes  
+- 🏫 **Instituição | Institution:** IFSUL CAVG  
+- 📅 **Data de Conclusão | Completion Date:** undefined
 
 ---
 
-## 🎯 Objetivos
+## 🎯 Objetivos | Goals
 
-### Objetivo Geral
+### 🇧🇷 Objetivo Geral  
+Desenvolver um sistema web responsivo que informatize o controle de chaves físicas.
 
-Desenvolver um sistema web responsivo que informatize o controle de retirada e devolução de chaves físicas no IFSUL CAVG, substituindo os registros manuais por uma solução digital confiável.
-
-### Objetivos Específicos
-
-- Desenvolver uma interface web responsiva e acessível.
-- Permitir cadastro, retirada, devolução e reserva de chaves.
-- Fornecer controle e rastreabilidade via registros e histórico.
-- Implementar autenticação de administrador e usuários comuns.
-- Registrar logs para auditoria.
-- Garantir segurança e proteção de dados com criptografia.
-- Oferecer filtros de busca e relatórios detalhados.
-- Permitir agendamentos remotos por usuários cadastrados.
+### 🇺🇸 General Objective  
+Develop a responsive web system to digitize the control of physical keys.
 
 ---
 
-## 🛠️ Funcionalidades
+## 🛠️ Funcionalidades | Features
 
-- [x] Cadastro de chaves com nome, local e tipo.
-- [x] Registro de retirada e devolução de chaves com data e hora.
-- [x] Cadastro e autenticação de usuários (servidores, alunos etc.).
-- [x] Histórico de movimentações por chave e por usuário.
-- [x] Sistema de reserva online com confirmação presencial.
-- [x] Interface responsiva para acesso via celular/tablet.
-- [x] Área de administração com filtros e geração de relatórios.
-- [x] Logs de auditoria de todas as ações realizadas.
-- [x] Segurança com criptografia de senhas e backups.
-- [x] Sistema de Cadastro e Login.
-
----
-
-## ⚙️ Tecnologias Utilizadas
-
-| Tecnologia     | Finalidade                              |
-|----------------|------------------------------------------|
-| PHP            | Lógica de programação (Back-end)         |
-| MySQL          | Banco de dados relacional                |
-| HTML5/CSS3     | Estrutura e estilo das páginas           |
-| JavaScript     | Funcionalidades dinâmicas no Front-end   |
-| Tailwind       | Interface responsiva                     |
-| Scrum          | Metodologia ágil de desenvolvimento      |
+- ✅ Cadastro de chaves / Key registration  
+- ✅ Registro de retirada e devolução / Check-out and return logs  
+- ✅ Autenticação de usuários / User authentication  
+- ✅ Histórico de movimentações / Movement history  
+- ✅ Reservas online com confirmação / Online reservations  
+- ✅ Interface responsiva / Responsive design  
+- ✅ Área administrativa com relatórios / Admin area with reports  
+- ✅ Logs de auditoria / Audit logs  
+- ✅ Criptografia e backups / Encryption and backups  
 
 ---
 
-## 🔐 Acesso ao Sistema
+## ⚙️ Tecnologias | Technologies
 
-**Usuário Administrador:**  
-- Pode cadastrar chaves  
-- Acessar relatórios administrativos  
-- Confirmar retiradas agendadas  
-- Visualizar o histórico completo de uso  
-
-**Usuário Comum (aluno/servidor):**  
-- Pode realizar reservas de chaves  
-- Visualizar seu histórico pessoal de agendamentos e retiradas  
-
----
-
-## 🧪 Testes
-
-Durante o desenvolvimento, foram realizados os seguintes testes:
-
-- ✅ **Testes unitários:** verificação de componentes individuais do sistema  
-- ✅ **Testes funcionais:** avaliação integrada das funcionalidades do sistema  
-- ✅ **Validações com usuários reais:** testes com alunos e servidores da instituição para aferição prática  
+| Tecnologia | Technology | Finalidade | Purpose |
+|------------|------------|------------|---------|
+| PHP        | PHP        | Back-end   | Logic   |
+| MySQL      | MySQL      | Banco de dados | Database |
+| HTML/CSS   | HTML/CSS   | Interface  | Structure & Style |
+| JavaScript | JavaScript | Dinamismo  | Dynamic Features |
+| Tailwind   | Tailwind   | Responsividade | Responsive UI |
+| Scrum      | Scrum      | Metodologia ágil | Agile methodology |
 
 ---
 
-## 🧱 Estrutura do Banco de Dados
+## 🧪 Testes | Testing
 
-Principais entidades do sistema:
-
-- `usuario` – alunos, servidores ou administradores  
-- `chave` – identificação e localização da chave física  
-- `retirada` – controle de retirada e devolução das chaves  
-- `reserva` – informações de agendamento por data e hora  
-
-Os relacionamentos entre as entidades seguem os princípios de **integridade referencial**, garantindo segurança e consistência dos dados.
+- ✅ Testes unitários / Unit tests  
+- ✅ Testes funcionais / Functional tests  
+- ✅ Validação com usuários reais / Real user validation  
 
 ---
 
-## 📊 Relatórios e Logs
+## 🧱 Estrutura do Banco | Database Structure
 
-O sistema oferece funcionalidades administrativas avançadas, incluindo:
-
-- Exportação do histórico de uso das chaves  
-- Filtros por data, usuário ou chave para reservas e movimentações  
-- Visualização de logs de todas as ações realizadas no sistema  
-- Confirmação presencial de retiradas previamente agendadas  
-
----
-
-## 🧩 Requisitos Não Funcionais
-
-- Interface amigável, intuitiva e responsiva  
-- Compatibilidade com os principais navegadores modernos  
-- Alta disponibilidade (mínimo de 99% online)  
-- Estrutura modular, facilitando manutenção e atualizações  
-- Conformidade com boas práticas de acessibilidade e usabilidade  
-- Implementação de backups periódicos e segurança dos dados  
+| Entidade | Entity | Descrição |
+|----------|--------|-----------|
+| `usuario` | user | Alunos, servidores, admins |
+| `chave` | key | Identificação da chave física |
+| `retirada` | checkout | Controle de retirada e devolução |
+| `reserva` | reservation | Agendamento com data e hora |
 
 ---
 
-## 📜 Direitos Autorais
+## 📊 Relatórios e Logs | Reports and Logs
 
-**Chave Mestra - Sistema de Controle de Chaves**  
-**Autores:** Thiago Pucinelli e Leonardo Oliveira  
+- 📤 Exportação do histórico / Export usage history  
+- 🔎 Filtros por data, usuário ou chave / Filters by date, user, or key  
+- 📋 Visualização de logs / Action log viewer  
+- ✅ Confirmação presencial de agendamentos / In-person confirmation  
+
+---
+
+## 🧩 Requisitos Não Funcionais | Non-Functional Requirements
+
+- Interface intuitiva e responsiva / Intuitive and responsive UI  
+- Compatível com navegadores modernos / Modern browser compatibility  
+- Alta disponibilidade / High availability (≥ 99%)  
+- Estrutura modular / Modular codebase  
+- Acessibilidade e usabilidade / Accessibility & usability  
+- Backups periódicos e segurança / Periodic backups & security  
+
+---
+
+## 📜 Direitos Autorais | Copyright
+
 © 2025 Thiago Pucinelli & Leonardo Oliveira  
-**Todos os direitos reservados.**
+Todos os direitos reservados. / All rights reserved.
 
-Este projeto é uma obra **exclusivamente autoral**, desenvolvida como parte de um **Trabalho de Conclusão de Curso (TCC)** do Instituto Federal Sul-Rio-Grandense – Campus Pelotas Visconde da Graça.
+> ⚠️ Este repositório é disponibilizado **apenas para leitura e consulta técnica**.  
+> ⚠️ This repository is provided **for reading and technical reference only**.
 
-### ❌ É expressamente proibido:
+**Não constitui uma licença de uso. / It does not constitute a usage license.**
 
-- Copiar, redistribuir ou publicar qualquer parte do código  
-- Modificar ou criar obras derivadas a partir deste projeto  
-- Utilizar o código ou partes dele para fins pessoais, educacionais, comerciais ou institucionais sem autorização prévia por escrito dos autores  
-
-> ⚠️ Este repositório é disponibilizado **apenas para leitura e consulta técnica**, com fins exclusivamente acadêmicos e demonstrativos.  
-**Não constitui uma licença de uso.**
-
-A violação destas condições constitui infração de direitos autorais conforme previsto na **Lei nº 9.610/1998 (Brasil)**.
+Violação constitui infração à **Lei nº 9.610/1998 (Brasil)**.  
+Violation constitutes infringement under **Brazilian Law No. 9,610/1998**.
 
 ---
 
-## 📫 Contato
+## 📫 Contato | Contact
 
-Caso deseje entrar em contato com os autores:
-
-- ✉️ thiagopucinellisenac@gmail.com
-- 💼 LinkedIn www.linkedin.com/in/thiagopucinelli
-  
---- 
-
-
+- ✉️ thiagopucinellisenac@gmail.com  
+- 💼 [LinkedIn – Thiago Pucinelli](https://www.linkedin.com/in/thiagopucinelli)  
