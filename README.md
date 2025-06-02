@@ -51,9 +51,9 @@ Desenvolver um sistema web responsivo que informatize o controle de retirada e d
 - [x] Sistema de reserva online com confirmação presencial.
 - [x] Interface responsiva para acesso via celular/tablet.
 - [x] Área de administração com filtros e geração de relatórios.
-- [x] Registro manual para usuários não cadastrados.
 - [x] Logs de auditoria de todas as ações realizadas.
 - [x] Segurança com criptografia de senhas e backups.
+- [x] Sistema de Cadastro e Login.
 
 ---
 
@@ -65,7 +65,7 @@ Desenvolver um sistema web responsivo que informatize o controle de retirada e d
 | MySQL          | Banco de dados relacional                |
 | HTML5/CSS3     | Estrutura e estilo das páginas           |
 | JavaScript     | Funcionalidades dinâmicas no Front-end   |
-| Bootstrap      | Interface responsiva                     |
+| Tailwind       | Interface responsiva                     |
 | Scrum          | Metodologia ágil de desenvolvimento      |
 
 ---
