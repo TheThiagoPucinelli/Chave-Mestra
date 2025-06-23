@@ -44,7 +44,7 @@
                         md:flex md:flex-row md:space-x-6 md:space-y-0 md:items-center md:px-0 md:py-0">
               <a href="../Pages/contato.php" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Contato</a>
               <a href="../PHP/login.php" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">login</a>
-              <a href="../Pages/chaves.php" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Chaves</a>
+              <a href="../Pages/cadastro_chaves.html" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Chaves</a>
               <a href="../Pages/registro.php" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Registro</a>
             </nav>
           </div>
