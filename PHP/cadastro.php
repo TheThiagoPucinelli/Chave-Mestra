@@ -1,19 +1,17 @@
-
 <?php
 session_start();
 include '../BD/conexao.php';
 
-
 $erroMsg = "";
 
-// Função para validar nome (apenas letras e espaços, até 60 caracteres)
+// Validação de nome
 function validarNome($nome) {
     return preg_match("/^[a-zA-ZÀ-ÿ\s]{1,60}$/u", $nome);
 }
 
-// Função para validar senha (até 30 caracteres)
+// Validação de senha
 function validarSenha($senha) {
-    return strlen($senha) <= 30;
+    return strlen($senha) <= 30 && strlen($senha) >= 12;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,14 +22,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirmar_senha = $_POST['confirmar_senha'];
 
     if (!validarNome($nome)) {
-        $erroMsg = "O nome deve conter apenas letras e no máximo 100 caracteres.";
+        $erroMsg = "O nome deve conter apenas letras e no máximo 60 caracteres.";
     } elseif (!validarSenha($senha)) {
-        $erroMsg = "A senha deve conter no máximo 30 caracteres.";
+        $erroMsg = "A senha deve conter entre 12 e 30 caracteres.";
     } elseif ($senha !== $confirmar_senha) {
         $erroMsg = "As senhas não coincidem.";
     } else {
-        // Verifica se CPF ou email já existem
-        $verifica = $conexao->prepare("SELECT * FROM usuarios WHERE cpf = ? OR email = ?");
+        // Verifica se CPF ou email já estão cadastrados
+        $verifica = $conexao->prepare("SELECT * FROM usuario WHERE cpf = ? OR email = ?");
+        if (!$verifica) {
+            die("Erro ao preparar a consulta: " . $conexao->error);
+        }
         $verifica->bind_param("ss", $cpf, $email);
         $verifica->execute();
         $resultado = $verifica->get_result();
@@ -40,7 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $erroMsg = "CPF ou e-mail já cadastrado.";
         } else {
             $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-            $stmt = $conexao->prepare("INSERT INTO usuarios (nome, cpf, email, senha) VALUES (?, ?, ?, ?)");
+            $stmt = $conexao->prepare("INSERT INTO usuario (nome, cpf, email, senha) VALUES (?, ?, ?, ?)");
+            if (!$stmt) {
+                die("Erro ao preparar a inserção: " . $conexao->error);
+            }
             $stmt->bind_param("ssss", $nome, $cpf, $email, $senha_hash);
 
             if ($stmt->execute()) {
@@ -68,6 +72,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8" />
     <title>Cadastro - Chave Mestra</title>
     <link rel="stylesheet" href="../css/login.css" />
+    <style>
+      /* Botão para mostrar senha */
+      .input-group {
+          position: relative;
+          margin-bottom: 1rem;
+      }
+      .toggle-password {
+          position: absolute;
+          right: 10px;
+          top: 38px;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          font-size: 0.9rem;
+          color: #555;
+          user-select: none;
+      }
+    </style>
 </head>
 <body>
     <div class="login-container">
@@ -84,12 +106,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="input-group">
                     <label for="nome">Nome</label>
                     <input 
-                        type="char" 
+                        type="text" 
                         id="nome" 
                         name="nome" 
                         maxlength="60" 
-                        pattern="[A-Za-zÀ-ÿ\s]{1,100}" 
-                        title="Apenas letras e espaços, até 100 caracteres" 
+                        pattern="[A-Za-zÀ-ÿ\s]{1,60}" 
+                        title="Apenas letras e espaços, até 60 caracteres" 
                         placeholder="Digite seu nome completo" 
                         required 
                         value="<?php echo isset($nome) ? htmlspecialchars($nome) : ''; ?>"
@@ -97,11 +119,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="input-group">
-                <div class="input-group">
                     <label for="cpf">CPF</label>
-                    <input type="text" id="cpf" name="cpf" placeholder="Digite Seu CPF "maxlength="11" pattern="\d{11}"  title="Digite exatamente 11 números" required value="<?php echo isset($cpf) ? htmlspecialchars($cpf) : ''; ?>">
-                </div>
-                    
+                    <input 
+                        type="text" 
+                        id="cpf" 
+                        name="cpf" 
+                        placeholder="Digite seu CPF" 
+                        maxlength="11" 
+                        pattern="\d{11}" 
+                        title="Digite exatamente 11 números" 
+                        required 
+                        value="<?php echo isset($cpf) ? htmlspecialchars($cpf) : ''; ?>"
+                    >
                 </div>
 
                 <div class="input-group">
@@ -124,10 +153,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         name="senha" 
                         minlength="12"
                         maxlength="30" 
-                        title="Máximo 30 caracteres" 
+                        title="Entre 12 e 30 caracteres" 
                         placeholder="Digite sua senha" 
                         required
                     >
+                    <button type="button" class="toggle-password" onclick="toggleSenha('senha', this)">Mostrar</button>
                 </div>
 
                 <div class="input-group">
@@ -140,6 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         placeholder="Confirme sua senha" 
                         required
                     >
+                    <button type="button" class="toggle-password" onclick="toggleSenha('confirmar_senha', this)">Mostrar</button>
                 </div>
 
                 <div class="submit-btn">
@@ -153,5 +184,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </p>
         </div>
     </div>
+
+    <script>
+      function toggleSenha(idInput, btn) {
+        const input = document.getElementById(idInput);
+        if (input.type === 'password') {
+          input.type = 'text';
+          btn.textContent = 'Ocultar';
+        } else {
+          input.type = 'password';
+          btn.textContent = 'Mostrar';
+        }
+      }
+    </script>
 </body>
 </html>
