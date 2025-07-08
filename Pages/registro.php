@@ -1,6 +1,5 @@
 <?php include __DIR__ . '/../PHP/verifica_login.php'; ?>
 
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -9,14 +8,13 @@
   <link rel="shortcut icon" href="CM.png" type="image/x-icon">
   <link rel="stylesheet" href="../css/index.css">
   <link rel="icon" type="image/png" href="../IMG/cmpage.png">
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <title>Registro de Chaves</title>
+  <title>Lista de Chaves - Chave Mestra</title>
+
   <script defer>
     function filtrarChaves() {
       const input = document.getElementById('busca').value.toLowerCase();
       const linhas = document.querySelectorAll('#tabela-chaves tbody tr');
-
       linhas.forEach(linha => {
         const textoLinha = linha.textContent.toLowerCase();
         linha.style.display = textoLinha.includes(input) ? '' : 'none';
@@ -24,105 +22,91 @@
     }
   </script>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
-<!-- Header importado -->
-<main>
-  <header class="relative top-0 left-0 w-full bg-white shadow z-50">
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-      <!-- Logo -->
-      <a href="../pages/index.html" class="flex items-center">
-        <img src="../IMG/CM (5).png" alt="Logo" class="h-20 w-auto" />
-      </a>
+  <!-- Header -->
+  <?php include '../Includes/header.php'; ?>
 
-      <!-- Menu Toggle (mobile) -->
-      <input type="checkbox" id="menu-toggle" class="hidden peer" />
-      <label for="menu-toggle" class="cursor-pointer md:hidden block">
-        <div class="space-y-1.5">
-          <span class="block w-6 h-0.5 bg-gray-800"></span>
-          <span class="block w-6 h-0.5 bg-gray-800"></span>
-          <span class="block w-6 h-0.5 bg-gray-800"></span>
-        </div>
-      </label>
+  <!-- Conteúdo principal -->
+  <main class="flex-grow container mx-auto px-4 py-10 max-w-5xl">
+    <h1 class="text-3xl font-bold text-center text-blue-800 mb-8">Lista de Chaves</h1>
 
-      <!-- Menu feito com Tailwind -->
-      <nav class="absolute top-full left-0 w-full bg-white shadow-md 
-                  flex-col space-y-2 px-6 py-4
-                  hidden peer-checked:flex 
-                  md:static md:w-auto md:bg-transparent md:shadow-none 
-                  md:flex md:flex-row md:space-x-6 md:space-y-0 md:items-center md:px-0 md:py-0">
-        <a href="../Pages/contato.html" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Contato</a>
-        <a href="../PHP/login.php" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Login</a>
-        <a href="../Pages/chaves.php" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Chaves</a>
-        <a href="../Pages/registro.html" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Registro</a>
-      </nav>
-    </div>
-  </header>
-</main>
+    <input type="text" id="busca" onkeyup="filtrarChaves()" placeholder="Buscar por ID, nome, número, descrição, quantidade ou status..."
+      class="w-full p-2 border border-gray-300 rounded mb-6" />
 
- <!-- Conteúdo principal -->
- <div class="flex-grow">
-  <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow mt-10">
-    <h1 class="text-2xl font-bold mb-4">Registro de Chaves</h1>
-
-    <input type="text" id="busca" onkeyup="filtrarChaves()" placeholder="Buscar por nome, chave, sala..."
-      class="w-full p-2 border border-gray-300 rounded mb-4" />
-
-    <div class="overflow-x-auto">
-      <table id="tabela-chaves" class="min-w-full bg-white border border-gray-200">
-        <thead class="bg-gray-200 text-left">
+    <div class="overflow-x-auto shadow-lg rounded-lg bg-white border border-gray-200">
+      <table id="tabela-chaves" class="min-w-full text-sm text-left text-gray-700">
+        <thead class="bg-blue-600 text-white uppercase text-xs">
           <tr>
-            <th class="p-2 border">ID</th>
-            <th class="p-2 border">Nome</th>
-            <th class="p-2 border">Chave</th>
-            <th class="p-2 border">Sala</th>
-            <th class="p-2 border">Data</th>
+            <th scope="col" class="px-6 py-4">ID</th>
+            <th scope="col" class="px-6 py-4">Nome</th>
+            <th scope="col" class="px-6 py-4">Número Identificação</th>
+            <th scope="col" class="px-6 py-4">Descrição</th>
+            <th scope="col" class="px-6 py-4">Quantidade</th>
+            <th scope="col" class="px-6 py-4">Status</th>
           </tr>
         </thead>
-        <tbody>
-          <tr class="hover:bg-gray-50">
-            <td class="p-2 border">1</td>
-            <td class="p-2 border">João Silva</td>
-            <td class="p-2 border">CHV123</td>
-            <td class="p-2 border">A101</td>
-            <td class="p-2 border">2025-05-10</td>
-          </tr>
-          <tr class="hover:bg-gray-50">
-            <td class="p-2 border">2</td>
-            <td class="p-2 border">Maria Oliveira</td>
-            <td class="p-2 border">CHV124</td>
-            <td class="p-2 border">B202</td>
-            <td class="p-2 border">2025-05-11</td>
-          </tr>
+        <tbody class="divide-y divide-gray-200">
+          <?php
+          include_once '../BD/conexao.php';
+
+          // SQL para pegar as chaves com info do empréstimo ativo (se houver)
+          $sql = "
+            SELECT 
+              c.id_chave, c.nome, c.numero_identificacao, c.descricao, c.quantidade,
+              e.data_inicio_reserva, e.data_fim_reserva,
+              CASE 
+                WHEN e.id_emprestimo IS NULL THEN 'disponível'
+                ELSE 'indisponível'
+              END AS status_dinamico
+            FROM chave c
+            LEFT JOIN emprestimo e ON c.id_chave = e.id_chave AND e.hora_data_devolucao IS NULL
+            GROUP BY c.id_chave
+          ";
+
+          $result = $conexao->query($sql);
+
+          if ($result && $result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+              $statusText = ucfirst($row["status_dinamico"]);
+
+              $statusClass = $statusText === 'Disponível'
+                ? "text-green-700 bg-green-100 font-semibold px-2 py-1 rounded"
+                : "text-red-700 bg-red-100 font-semibold px-2 py-1 rounded";
+
+              // Montar texto do status com data/hora se indisponível
+              if ($statusText === 'Indisponível') {
+                $inicio = $row['data_inicio_reserva'] ? date('d/m/Y H:i', strtotime($row['data_inicio_reserva'])) : 'N/A';
+                $fim = $row['data_fim_reserva'] ? date('d/m/Y H:i', strtotime($row['data_fim_reserva'])) : 'N/A';
+                $statusText .= " (De: $inicio Até: $fim)";
+              }
+
+              echo "<tr class='hover:bg-gray-100'>
+                      <td class='px-6 py-4'>" . htmlspecialchars($row["id_chave"]) . "</td>
+                      <td class='px-6 py-4'>" . htmlspecialchars($row["nome"]) . "</td>
+                      <td class='px-6 py-4'>" . htmlspecialchars($row["numero_identificacao"]) . "</td>
+                      <td class='px-6 py-4'>" . htmlspecialchars($row["descricao"]) . "</td>
+                      <td class='px-6 py-4'>" . htmlspecialchars($row["quantidade"]) . "</td>
+                      <td class='px-6 py-4'><span class='{$statusClass}'>" . $statusText . "</span></td>
+                    </tr>";
+            }
+          } else {
+            echo "<tr><td colspan='6' class='text-center px-6 py-4 text-red-500'>Nenhuma chave encontrada.</td></tr>";
+          }
+
+          $conexao->close();
+          ?>
         </tbody>
       </table>
     </div>
-  </div>
-</div>
+  </main>
 
-<!-- Footer sempre no fim -->
-<body>
-  <div class="page-wrapper">
-    <!-- Conteúdo aqui -->
-  </div>
-
-  <footer class="footer">
-    <div class="footer-container">
-      <p>&copy; 2025 Chave Mestra | 
-        <a href="../Pages/contato.html" class="footer-link">Contato</a>
-      </p>
+ <!-- Footer -->
+<footer class="bg-gray-800 text-white py-6 mt-6">
+    <div class="max-w-7xl mx-auto text-center">
+        <p>&copy; 2025 Chave Mestra | <a href="../Pages/contato.php" class="text-blue-400 hover:text-white">Contato</a></p>
     </div>
-  </footer>
-</body>
-
-
-<script>
-  setTimeout(() => {
-    alert('Sua sessão expirou! Faça Login Novamente!');
-    window.location.href = '../PHP/login.php'; // redireciona para login
-  }, <?= $tempoRestante ?>);
-</script>
-
+</footer>
 
 </body>
 </html>
