@@ -10,6 +10,8 @@ Tutorial Resumido do Sistema Chave Mestra
 (Necesário ter o banco de dados "chave-mestra2.sql").
 
 # Incio
+
+# abra a pagina http://127.0.0.1/Chave-Mestra-Version-1.4/PHP/login.php
 Você irá entrar automaticamente pedindo um login
 
 # Cadastro de Usuário
