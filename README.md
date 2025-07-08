@@ -7,6 +7,7 @@
 
 ## Como usar:
 Tutorial Resumido do Sistema Chave Mestra
+(Necesário ter o banco de dados "chave-mestra2.sql").
 
 # Incio
 Você irá entrar automaticamente pedindo um login
