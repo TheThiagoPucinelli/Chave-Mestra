@@ -8,25 +8,25 @@
 ## Como usar:
 Tutorial Resumido do Sistema Chave Mestra
 
-Incio
+# Incio
 Você irá entrar automaticamente pedindo um login
 
-Cadastro de Usuário
+# Cadastro de Usuário
 Preencha nome, CPF, email e senha (12 a 30 caracteres). Cadastre e vá para login.
 
-Login
+# Login
 Use CPF ou email com a senha cadastrada para entrar.
 
-Cadastro de Chaves
+# Cadastro de Chaves
 Cadastre nome, número, descrição e quantidade da chave.
 
-Buscar Chaves
+# Buscar Chaves
 Veja todas as chaves numa lista e use o campo de busca para filtrar.
 
-Agendar Chave
+# Agendar Chave
 Escolha a chave disponível, informe data/hora de início e fim, e confirme o agendamento.
 
-Contato
+# Contato
 Use o formulário para enviar mensagens ao administrador.
 
 ## 📘 Sobre o Projeto | About the Project
