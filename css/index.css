@@ -1,77 +1,87 @@
-/* RESET BÁSICO */
+/* RESET BÁSICO: Remove margens e paddings padrão e define box-sizing para facilitar o controle de layout */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Estilo base do corpo da página */
 body {
-  font-family: 'Helvetica', sans-serif;
-  background:#2f76ea;
+  font-family: 'Helvetica', sans-serif; /* Fonte principal */
+  background:#2f76ea; /* Fundo azul */
 }
 
 /* HEADER */
+/* Estilo do container do cabeçalho */
 .header {
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative;
-  width: 100%;
-  top: 0;
-  z-index: 10;
+  background-color: #ffffff; /* Fundo branco */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  position: relative; /* Posicionamento relativo para controle interno */
+  width: 100%; /* Largura total */
+  top: 0; /* Fica no topo */
+  z-index: 10; /* Prioridade na sobreposição */
 }
 
+/* Container dentro do header para centralizar conteúdo e distribuir itens */
 .header .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 80px;
+  max-width: 1200px; /* largura máxima */
+  margin: 0 auto; /* centraliza horizontalmente */
+  padding: 0 20px; /* espaçamento lateral */
+  display: flex; /* layout flexível */
+  align-items: center; /* alinhamento vertical */
+  justify-content: space-between; /* espaço entre elementos */
+  height: 80px; /* altura fixa */
 }
 
+/* Logo dentro do header */
 .logo img {
-  height: 60px;
+  height: 60px; /* altura fixa da imagem do logo */
 }
 
 /* NAVIGATION */
+/* Lista de links do menu */
 .menu ul {
-  list-style: none;
-  display: flex;
-  gap: 20px;
+  list-style: none; /* remove marcadores */
+  display: flex; /* organiza em linha */
+  gap: 20px; /* espaço entre os itens */
 }
 
+/* Links do menu */
 .menu ul li a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-  padding: 10px 15px;
-  border-radius: 4px;
-  background-color: #f0f4f7;
-  transition: all 0.3s ease;
+  text-decoration: none; /* remove sublinhado */
+  color: #333; /* cor do texto */
+  font-weight: 500; /* peso da fonte */
+  padding: 10px 15px; /* espaçamento interno */
+  border-radius: 4px; /* cantos arredondados */
+  background-color: #f0f4f7; /* cor de fundo clara */
+  transition: all 0.3s ease; /* transição suave para hover */
 }
 
+/* Efeito ao passar mouse sobre os links */
 .menu ul li a:hover {
-  background-color: #1e90ff;
-  color: #fff;
+  background-color: #1e90ff; /* fundo azul */
+  color: #fff; /* texto branco */
 }
 
 /* HAMBURGER MENU */
+/* Ícone do menu hambúrguer, inicialmente escondido */
 .menu-icon {
-  display: none;
-  cursor: pointer;
+  display: none; /* escondido por padrão */
+  cursor: pointer; /* cursor de clique */
   padding: 10px;
 }
 
+/* Barra principal do ícone hambúrguer */
 .menu-icon .navicon {
-  background: #333;
-  height: 3px;
-  width: 25px;
+  background: #333; /* cor da barra */
+  height: 3px; /* altura da barra */
+  width: 25px; /* largura da barra */
   position: relative;
   display: block;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease; /* animação suave */
 }
 
+/* Barras antes e depois da principal para formar o hambúrguer */
 .menu-icon .navicon::before,
 .menu-icon .navicon::after {
   content: '';
@@ -82,31 +92,37 @@ body {
   transition: all 0.3s ease;
 }
 
+/* Posicionamento da barra superior */
 .menu-icon .navicon::before {
   top: -8px;
 }
 
+/* Posicionamento da barra inferior */
 .menu-icon .navicon::after {
   top: 8px;
 }
 
+/* Checkbox para ativar o menu em mobile (invisível) */
 .menu-toggle {
   display: none;
 }
 
+/* MEDIA QUERY: Responsividade para telas até 768px */
 @media (max-width: 768px) {
+  /* Menu vira coluna e fica escondido por padrão */
   .menu ul {
-    flex-direction: column;
+    flex-direction: column; /* coluna */
     position: absolute;
-    top: 80px;
+    top: 80px; /* abaixo do header */
     left: 0;
     right: 0;
-    background: #fff;
-    display: none;
+    background: #fff; /* fundo branco */
+    display: none; /* escondido inicialmente */
   }
 
+  /* Transformação do ícone hambúrguer em "X" quando ativo */
   .menu-toggle:checked + .menu-icon .navicon {
-    background: transparent;
+    background: transparent; /* esconde a barra central */
   }
 
   .menu-toggle:checked + .menu-icon .navicon::before {
@@ -119,29 +135,36 @@ body {
     top: 0;
   }
 
+  /* Exibe o menu quando checkbox está marcado */
   .menu-toggle:checked ~ nav ul {
     display: flex;
   }
 
+  /* Mostra o ícone hambúrguer */
   .menu-icon {
     display: block;
   }
 }
 
 /* VISIBILIDADE CONDICIONAL */
+/* Elementos visíveis apenas em desktop */
 .table-desktop {
   display: block;
 }
 
+/* Elementos visíveis apenas em mobile, inicialmente escondidos */
 .form-mobile {
   display: none;
 }
 
+/* MEDIA QUERY para telas menores que 767px */
 @media (max-width: 767px) {
+  /* Esconde tabela no mobile */
   .table-desktop {
     display: none;
   }
 
+  /* Estilização do formulário mobile */
   .form-mobile {
     display: block;
     margin: 20px auto;
@@ -152,6 +175,7 @@ body {
     max-width: 90%;
   }
 
+  /* Título do formulário */
   .form-title {
     text-align: center;
     color: #1e90ff;
@@ -159,10 +183,12 @@ body {
     font-size: 20px;
   }
 
+  /* Espaçamento entre campos */
   .form-group {
     margin-bottom: 15px;
   }
 
+  /* Labels dos campos */
   .form-group label {
     display: block;
     font-weight: bold;
@@ -170,6 +196,7 @@ body {
     color: #333;
   }
 
+  /* Inputs e selects do formulário */
   .form-group input,
   .form-group select {
     width: 100%;
@@ -179,6 +206,7 @@ body {
     border: 1px solid #ccc;
   }
 
+  /* Botão do formulário */
   .form-mobile button {
     width: 100%;
     background-color: #1e90ff;
@@ -191,67 +219,76 @@ body {
     cursor: pointer;
   }
 
+  /* Efeito hover do botão */
   .form-mobile button:hover {
     background-color: #26e32f;
   }
 }
 
-/* CONTAINER TABELA */
+/* CONTAINER DA TABELA */
 .container-tab {
-  margin: 120px auto 50px auto;
-  max-width: 1200px;
-  width: 90%;
-  background-color: #ffffff;
+  margin: 120px auto 50px auto; /* espaçamento superior e inferior */
+  max-width: 1200px; /* largura máxima */
+  width: 90%; /* largura responsiva */
+  background-color: #ffffff; /* fundo branco */
   padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 15px; /* cantos arredondados */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* sombra leve */
 }
 
-/* TÍTULO */
+/* TÍTULO PRINCIPAL */
 h2 {
   text-align: center;
-  color: #fff;
+  color: #fff; /* texto branco */
   margin-bottom: 20px;
-  background: linear-gradient(90deg, #0271e0, #496cab);
+  background: linear-gradient(90deg, #0271e0, #496cab); /* fundo degradê azul */
   padding: 15px 20px;
   border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* sombra para destaque */
   font-size: 26px;
   font-weight: bold;
   width: 100%;
 }
 
-/* TABELA */
+/* TABELA RESPONSIVA */
 .table-responsive {
   width: 100%;
-  overflow-x: auto;
+  overflow-x: auto; /* adiciona scroll horizontal se necessário */
 }
 
+/* Estilos da tabela */
 table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: collapse; /* junta bordas */
   margin-top: 20px;
-  min-width: 600px;
+  min-width: 600px; /* largura mínima */
 }
-option{
+
+/* Espaçamento para opções de select */
+option {
   margin-top: 5px;
 }
+
+/* Células da tabela */
 table th, table td {
   padding: 12px;
   text-align: center;
-  border: 1px solid #ddd;
+  border: 1px solid #ddd; /* borda clara */
 }
 
+/* Cabeçalho da tabela */
 table th {
-  background-color: #1e90ff;
-  color: #fff;
+  background-color: #1e90ff; /* fundo azul */
+  color: #fff; /* texto branco */
 }
 
+/* Células da tabela */
 table td {
-  background-color: #e6f7e6;
-  color: #2b3d4f;
+  background-color: #e6f7e6; /* fundo verde claro */
+  color: #2b3d4f; /* texto escuro */
 }
 
+/* Inputs e selects dentro da tabela */
 table input, table select {
   padding: 8px;
   width: 90%;
@@ -261,6 +298,7 @@ table input, table select {
   margin-top: 5px;
 }
 
+/* Botões dentro da tabela */
 table button {
   padding: 10px 20px;
   font-size: 14px;
@@ -273,36 +311,39 @@ table button {
   transition: background-color 0.3s;
 }
 
+/* Hover do botão */
 table button:hover {
   background-color: #26e32f;
 }
 
-
-
+/* Ajusta a altura mínima da página considerando o footer */
 .page-wrapper {
   min-height: calc(100vh - 96px); /* altura total da tela menos altura do footer */
 }
 
-/* Footer */
+/* FOOTER */
+/* Estilo geral do rodapé */
 .footer {
-  background-color: #1f2937;
+  background-color: #1f2937; /* fundo escuro */
   color: white;
   padding: 24px 0;
   text-align: center;
-  
 }
 
+/* Container do conteúdo do footer */
 .footer-container {
   max-width: 1120px;
   margin: 0 auto;
 }
 
+/* Links no footer */
 .footer-link {
-  color: #60a5fa;
+  color: #60a5fa; /* azul claro */
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
+/* Hover dos links no footer */
 .footer-link:hover {
   color: white;
 }

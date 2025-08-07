@@ -1,34 +1,42 @@
 <?php
-session_start();
-include '../BD/conexao.php';
+session_start(); // Inicia a sessão para poder usar $_SESSION
 
-$erroMsg = "";
+include '../BD/conexao.php'; // Inclui o arquivo de conexão com o banco
 
-// Validação de nome
+$erroMsg = ""; // Variável para mensagens de erro
+
+// Função para validar o nome: permite letras (incluindo acentos) e espaços, até 60 caracteres
 function validarNome($nome) {
     return preg_match("/^[a-zA-ZÀ-ÿ\s]{1,60}$/u", $nome);
 }
 
-// Validação de senha
+// Função para validar senha: tamanho entre 12 e 30 caracteres
 function validarSenha($senha) {
     return strlen($senha) <= 30 && strlen($senha) >= 12;
 }
 
+// Só processa se o formulário foi enviado via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Recebe e limpa os dados enviados
     $nome = trim($_POST['nome']);
     $cpf = trim($_POST['cpf']);
     $email = trim($_POST['email']);
     $senha = $_POST['senha'];
     $confirmar_senha = $_POST['confirmar_senha'];
 
+    // Valida nome
     if (!validarNome($nome)) {
         $erroMsg = "O nome deve conter apenas letras e no máximo 60 caracteres.";
-    } elseif (!validarSenha($senha)) {
+    }
+    // Valida senha
+    elseif (!validarSenha($senha)) {
         $erroMsg = "A senha deve conter entre 12 e 30 caracteres.";
-    } elseif ($senha !== $confirmar_senha) {
+    }
+    // Confirma senha
+    elseif ($senha !== $confirmar_senha) {
         $erroMsg = "As senhas não coincidem.";
     } else {
-        // Verifica se CPF ou email já estão cadastrados
+        // Verifica se CPF ou e-mail já estão cadastrados
         $verifica = $conexao->prepare("SELECT * FROM usuario WHERE cpf = ? OR email = ?");
         if (!$verifica) {
             die("Erro ao preparar a consulta: " . $conexao->error);
@@ -38,9 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $resultado = $verifica->get_result();
 
         if ($resultado->num_rows > 0) {
+            // Já existe usuário com este CPF ou e-mail
             $erroMsg = "CPF ou e-mail já cadastrado.";
         } else {
+            // Criptografa a senha para segurança
             $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
+            // Prepara a inserção dos dados
             $stmt = $conexao->prepare("INSERT INTO usuario (nome, cpf, email, senha) VALUES (?, ?, ?, ?)");
             if (!$stmt) {
                 die("Erro ao preparar a inserção: " . $conexao->error);
@@ -48,13 +60,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param("ssss", $nome, $cpf, $email, $senha_hash);
 
             if ($stmt->execute()) {
-                // Mensagem de sucesso na sessão
+                // Armazena mensagem de sucesso na sessão para mostrar no login
                 $_SESSION['msg_sucesso'] = "Cadastro realizado com sucesso! Agora faça login.";
 
-                // Redireciona para login.php
+                // Redireciona para a página de login
                 header("Location: login.php");
                 exit;
             } else {
+                // Caso dê erro na inserção
                 $erroMsg = "Erro ao cadastrar: " . $stmt->error;
             }
 
@@ -74,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Cadastro - Chave Mestra</title>
     <link rel="stylesheet" href="../css/login.css" />
     <style>
+      /* Estilos para os grupos de input e botão de mostrar senha */
       .input-group {
           position: relative;
           margin-bottom: 1rem;
@@ -89,6 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           color: #555;
           user-select: none;
       }
+      /* Caixa de mensagem de erro */
       .erro-login {
           background-color: #f8d7da;
           color: #842029;
@@ -104,12 +119,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="login-box">
             <h2>Cadastro</h2>
 
+            <!-- Mostra a mensagem de erro se existir -->
             <?php if ($erroMsg): ?>
                 <div class="erro-login">
                     <?= htmlspecialchars($erroMsg) ?>
                 </div>
             <?php endif; ?>
 
+            <!-- Formulário de cadastro -->
             <form method="POST" action="cadastro.php">
                 <div class="input-group">
                     <label for="nome">Nome</label>
@@ -165,6 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         placeholder="Digite sua senha" 
                         required
                     >
+                    <!-- Botão para mostrar/ocultar senha -->
                     <button type="button" class="toggle-password" onclick="toggleSenha('senha', this)">Mostrar</button>
                 </div>
 
@@ -194,6 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script>
+      // Função para alternar entre mostrar e ocultar a senha
       function toggleSenha(idInput, btn) {
         const input = document.getElementById(idInput);
         if (input.type === 'password') {

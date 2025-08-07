@@ -1,276 +1,292 @@
 /* Resetando margens e padding */
+/* Remove margens e preenchimentos padrão e define box-sizing para facilitar o layout */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Estilos gerais */
+/* Estilos gerais do body */
+/* Define fonte, cor de fundo, cor do texto e espaçamento entre linhas */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #3884d0;
-    color: #333;
-    line-height: 1.6;
-    margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #3884d0;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
 }
 
 /* HEADER - Cadastro de Chaves */
+/* Barra fixa no topo com sombra leve */
 .header {
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 10;
-  }
-  
-  .header .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 80px;
-  }
-  
-  .logo img {
-    height: 60px;
-  }
-  
-  /* Navegação */
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+}
+
+.header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex; /* Layout flexível para organizar itens */
+  align-items: center; /* Alinha itens verticalmente */
+  justify-content: space-between; /* Espaça itens entre si */
+  height: 80px; /* Altura fixa da barra */
+}
+
+.logo img {
+  height: 60px; /* Tamanho da logo */
+}
+
+/* Navegação */
+/* Lista horizontal de links */
+.menu ul {
+  list-style: none;
+  display: flex;
+  gap: 20px; /* Espaçamento entre os links */
+}
+
+.menu ul li a {
+  text-decoration: none; /* Remove sublinhado */
+  color: #333;
+  font-weight: 500;
+  padding: 10px 15px; /* Espaço interno nos links */
+  border-radius: 4px; /* Bordas arredondadas */
+  background-color: #f0f4f7; /* Fundo claro */
+  transition: all 0.3s ease; /* Transições suaves */
+}
+
+.menu ul li a:hover {
+  background-color: #1e90ff; /* Fundo azul ao passar o mouse */
+  color: #fff; /* Texto branco no hover */
+}
+
+/* HAMBURGER MENU */
+/* Ícone do menu hamburger oculto por padrão */
+.menu-icon {
+  display: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.menu-icon .navicon {
+  background: #333;
+  height: 3px;
+  width: 25px;
+  position: relative;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.menu-icon .navicon::before,
+.menu-icon .navicon::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background: #333;
+  transition: all 0.3s ease;
+}
+
+.menu-icon .navicon::before {
+  top: -8px; /* Linha superior */
+}
+
+.menu-icon .navicon::after {
+  top: 8px; /* Linha inferior */
+}
+
+.menu-toggle {
+  display: none; /* Checkbox oculto que controla o menu */
+}
+
+/* Estilos para telas menores que 768px */
+@media (max-width: 768px) {
+  /* Menu vira coluna, inicialmente oculto */
   .menu ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-  }
-  
-  .menu ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    padding: 10px 15px;
-    border-radius: 4px;
-    background-color: #f0f4f7;
-    transition: all 0.3s ease;
-  }
-  
-  .menu ul li a:hover {
-    background-color: #1e90ff;
-    color: #fff;
-  }
-  
-  /* HAMBURGER MENU */
-  .menu-icon {
-    display: none;
-    cursor: pointer;
-    padding: 10px;
-  }
-  
-  .menu-icon .navicon {
-    background: #333;
-    height: 3px;
-    width: 25px;
-    position: relative;
-    display: block;
-    transition: all 0.3s ease;
-  }
-  
-  .menu-icon .navicon::before,
-  .menu-icon .navicon::after {
-    content: '';
+    flex-direction: column;
     position: absolute;
-    width: 100%;
-    height: 3px;
-    background: #333;
-    transition: all 0.3s ease;
-  }
-  
-  .menu-icon .navicon::before {
-    top: -8px;
-  }
-  
-  .menu-icon .navicon::after {
-    top: 8px;
-  }
-  
-  .menu-toggle {
+    top: 80px; /* Abaixo do header */
+    left: 0;
+    right: 0;
+    background: #fff;
     display: none;
   }
-  
-  @media (max-width: 768px) {
-    .menu ul {
-      flex-direction: column;
-      position: absolute;
-      top: 80px;
-      left: 0;
-      right: 0;
-      background: #fff;
-      display: none;
-    }
-  
-    .menu-toggle:checked + .menu-icon .navicon {
-      background: transparent;
-    }
-  
-    .menu-toggle:checked + .menu-icon .navicon::before {
-      transform: rotate(-45deg);
-      top: 0;
-    }
-  
-    .menu-toggle:checked + .menu-icon .navicon::after {
-      transform: rotate(45deg);
-      top: 0;
-    }
-  
-    .menu-toggle:checked ~ nav ul {
-      display: flex;
-    }
-  
-    .menu-icon {
-      display: block;
-    }
+
+  /* Animações para o ícone de menu hamburger quando ativo */
+  .menu-toggle:checked + .menu-icon .navicon {
+    background: transparent; /* Esconde a linha central */
   }
-  
+
+  .menu-toggle:checked + .menu-icon .navicon::before {
+    transform: rotate(-45deg);
+    top: 0;
+  }
+
+  .menu-toggle:checked + .menu-icon .navicon::after {
+    transform: rotate(45deg);
+    top: 0;
+  }
+
+  /* Exibe o menu quando o checkbox estiver marcado */
+  .menu-toggle:checked ~ nav ul {
+    display: flex;
+  }
+
+  /* Mostra o ícone do menu hamburger em telas pequenas */
+  .menu-icon {
+    display: block;
+  }
+}
 
 /* Caixa de login */
+/* Centraliza o formulário na tela */
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100%;
-    padding-top: 80px; /* Para garantir que o header não sobreponha o formulário */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Altura total da tela */
+  width: 100%;
+  padding-top: 80px; /* Evita sobreposição com header fixo */
 }
 
+/* Estilização da caixa do formulário */
 .login-box {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
 }
 
-/* Título do Formulário */
+/* Título do formulário */
 h2 {
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 20px;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
-/* Estilo dos campos de input */
+/* Grupo de inputs */
 .input-group {
-    margin-bottom: 20px;
-    text-align: left;
+  margin-bottom: 20px;
+  text-align: left;
 }
 
+/* Label dos inputs */
 .input-group label {
-    display: block;
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 8px;
+  display: block;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
 }
 
+/* Foco no input */
 .input-group input:focus {
-    border-color: #1e90ff;
-    box-shadow: 0 0 5px rgba(30, 144, 255, 0.5); /* Leve sombra ao focar no input */
+  border-color: #1e90ff;
+  box-shadow: 0 0 5px rgba(30, 144, 255, 0.5); /* Sombra azul suave */
 }
 
+/* Estilo dos inputs */
 .input-group input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
-    color: #333;
-    outline: none;
-    transition: border-color 0.3s;
-}
-
-.input-group input:focus {
-    border-color: #1e90ff;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s;
 }
 
 /* Botão de envio */
 .submit-btn {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .submit-btn button {
-    background-color: #1e90ff;
-    color: #fff;
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background-color: #1e90ff;
+  color: #fff;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .submit-btn button:hover {
-    background-color: #007bff;
+  background-color: #007bff; /* Azul mais escuro no hover */
 }
 
 /* Link para cadastro */
 .signup-link {
-    margin-top: 20px;
-    font-size: 14px;
+  margin-top: 20px;
+  font-size: 14px;
 }
 
 .signup-link a {
-    color: #1e90ff;
-    text-decoration: none;
+  color: #1e90ff;
+  text-decoration: none;
 }
 
 .signup-link a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-
-
-/* Responsividade */
+/* Responsividade para telas pequenas */
 @media (max-width: 480px) {
-    .login-box {
-        padding: 20px;
-        max-width: 90%;
-    }
+  /* Ajusta padding e largura da caixa de login */
+  .login-box {
+      padding: 20px;
+      max-width: 90%;
+  }
 
-    h2 {
-        font-size: 20px;
-    }
+  /* Reduz tamanho do título */
+  h2 {
+      font-size: 20px;
+  }
 
-    .input-group input,
-    .submit-btn button {
-        padding: 10px;
-    }
+  /* Ajusta padding de inputs e botão */
+  .input-group input,
+  .submit-btn button {
+      padding: 10px;
+  }
 }
 
+/* Responsividade para telas até 767px */
 @media (max-width: 767px) {
-    .header {
-        display: none;
-    }
+  /* Esconde o header para telas menores */
+  .header {
+      display: none;
+  }
 
-    .login-container {
-        padding-top: 0;
-    }
+  /* Remove padding top para container login */
+  .login-container {
+      padding-top: 0;
+  }
 
-    .container {
-        width: 90%;
-        padding: 20px;
-    }
+  /* Ajusta container geral */
+  .container {
+      width: 90%;
+      padding: 20px;
+  }
 
-    h3 {
-        font-size: 24px;
-    }
+  /* Ajusta título e fontes */
+  h3 {
+      font-size: 24px;
+  }
 
-    .texts {
-        font-size: 14px;
-    }
+  .texts {
+      font-size: 14px;
+  }
 
-    button {
-        font-size: 14px;
-    }
+  button {
+      font-size: 14px;
+  }
 }
