@@ -1,5 +1,5 @@
 
-<img width="3780" height="2000" alt="Inserir um subtítulo" src="https://github.com/user-attachments/assets/9d53ba64-bffc-4165-9603-811461e8dea8" />
+<img width="2000" height="3000" alt="Inserir um subtítulo" src="https://github.com/user-attachments/assets/9d53ba64-bffc-4165-9603-811461e8dea8" />
 
 ---
 
