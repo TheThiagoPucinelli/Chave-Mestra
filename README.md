@@ -1,7 +1,5 @@
-# 🔐 Chave Mestra – Sistema de Controle de Chaves / Master Key – Key Management System
 
-> 🇧🇷 Sistema web desenvolvido para controle de chaves físicas no IFSUL CAVG  
-> 🇺🇸 Web-based system for managing physical keys at IFSUL CAVG
+<img width="3780" height="1890" alt="Inserir um subtítulo" src="https://github.com/user-attachments/assets/9d53ba64-bffc-4165-9603-811461e8dea8" />
 
 ---
 
