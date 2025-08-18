@@ -2,42 +2,36 @@
 include __DIR__ . '/../PHP/verifica_login.php';
 include_once '../BD/conexao.php';
 
-$mensagem = "";
-$erro = "";
-
-// CPF do usuário logado
-$cpfLogado = $_SESSION['cpf'] ?? '';
-
-// Verifica se o CPF existe na tabela solicitante
-$verifica = $conexao->prepare("SELECT cpf FROM solicitante WHERE cpf = ?");
-$verifica->bind_param("s", $cpfLogado);
-$verifica->execute();
-$verifica->store_result();
-
-if ($verifica->num_rows == 0) {
-    // Se não existir, cria automaticamente
-    $insere = $conexao->prepare("INSERT INTO solicitante (cpf) VALUES (?)");
-    $insere->bind_param("s", $cpfLogado);
-    $insere->execute();
-    $insere->close();
-}
-$verifica->close();
-
-// Buscar chaves disponíveis
+// --- Buscar chaves disponíveis ---
 $chaves = [];
-$sql = "SELECT id_chave, nome, numero_identificacao, descricao FROM chave WHERE status = 0 ORDER BY nome";
+$sql = "
+SELECT c.id_chave, c.nome, c.numero_identificacao, c.descricao
+FROM chave c
+WHERE c.status = 0
+AND c.id_chave NOT IN (
+    SELECT id_chave FROM emprestimo
+    WHERE hora_data_devolucao >= NOW()
+)
+ORDER BY c.nome
+";
 $res = $conexao->query($sql);
-if ($res) {
-    while ($row = $res->fetch_assoc()) {
+if($res){
+    while($row = $res->fetch_assoc()){
         $descricao = $row['descricao'] ? " - " . $row['descricao'] : "";
-        $texto = $row['nome'] . " (" . $row['numero_identificacao'] . ")" . $descricao;
-        $chaves[] = ['id' => $row['id_chave'], 'texto' => $texto];
+        $chaves[] = [
+            'id' => $row['id_chave'],
+            'texto' => $row['nome'] . " (" . $row['numero_identificacao'].")".$descricao
+        ];
     }
 }
 
-// Processar agendamento
+// --- Processar agendamento ---
+$mensagem = "";
+$erro = "";
+$cpfLogado = $_SESSION['cpf'] ?? '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id_chave = isset($_POST['chave']) ? (int) $_POST['chave'] : 0;
+    $id_chave = isset($_POST['chave_id']) ? (int) $_POST['chave_id'] : 0;
     $data_inicio_raw = $_POST['data_inicio'] ?? '';
     $data_fim_raw = $_POST['data_fim'] ?? '';
 
@@ -48,85 +42,237 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data_fim = date('Y-m-d H:i:s', strtotime($data_fim_raw));
 
         $stmt = $conexao->prepare("
-            INSERT INTO emprestimo (data_reserva, data_inicio_reserva, data_fim_reserva, id_chave, cpf_solicitante)
-            VALUES (NOW(), ?, ?, ?, ?)
+            INSERT INTO emprestimo (data_reserva, data_inicio_reserva, data_fim_reserva, hora_data_retirada, hora_data_devolucao, id_chave, cpf_solicitante)
+            VALUES (NOW(), ?, ?, ?, ?, ?, ?)
         ");
-        if ($stmt) {
-            $stmt->bind_param("ssis", $data_inicio, $data_fim, $id_chave, $cpfLogado);
-            if ($stmt->execute()) {
+        if($stmt){
+            $data_inicio_data = date('Y-m-d', strtotime($data_inicio));
+            $data_fim_data = date('Y-m-d', strtotime($data_fim));
+            
+            $stmt->bind_param(
+                "ssssis",
+                $data_inicio_data,
+                $data_fim_data,
+                $data_inicio,
+                $data_fim,
+                $id_chave,
+                $cpfLogado
+            );
+            
+            if($stmt->execute()){
                 $mensagem = "Agendamento realizado com sucesso!";
             } else {
-                $erro = "Erro ao agendar: " . $stmt->error;
+                $erro = "Erro ao agendar: ".$stmt->error;
             }
             $stmt->close();
         } else {
-            $erro = "Erro na preparação da consulta: " . $conexao->error;
+            $erro = "Erro na preparação da consulta: ".$conexao->error;
         }
     }
 }
+
+// --- Buscar agendamentos ---
+$agendamentos = [];
+$sql = "
+SELECT e.hora_data_retirada, e.hora_data_devolucao,
+       c.nome AS chave_nome, c.numero_identificacao
+FROM emprestimo e
+JOIN chave c ON e.id_chave = c.id_chave
+WHERE e.hora_data_retirada IS NOT NULL
+ORDER BY e.hora_data_retirada
+";
+$res = $conexao->query($sql);
+while($row = $res->fetch_assoc()){
+    $agendamentos[] = [
+        'chave' => $row['chave_nome'].' ('.$row['numero_identificacao'].')',
+        'inicio' => $row['hora_data_retirada'],
+        'fim' => $row['hora_data_devolucao'] ?? $row['hora_data_retirada']
+    ];
+}
 ?>
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Agendar Chave</title>
-  <link rel="stylesheet" href="../css/index.css" />
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agendamento e Calendário de Chaves</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* Calendário */
+.calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; position: relative; }
+.calendar-header { display: grid; grid-template-columns: repeat(7,1fr); text-align:center; font-weight:600; margin-bottom:5px; }
+.day { position:relative; padding:14px; text-align:center; border:1px solid #e5e7eb; border-radius:10px; cursor:pointer; background:#f9fafb; transition:0.3s; font-weight:500; }
+.day:hover { background-color: #bfdbfe; transform: translateY(-2px); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+.dot { position:absolute; bottom:6px; right:6px; width:10px; height:10px; border-radius:50%; background:#ef4444; border:2px solid white; }
+.tooltip { 
+    display:none; 
+    position:absolute; 
+    background:white; 
+    padding:10px; 
+    border:1px solid #d1d5db; 
+    border-radius:10px; 
+    box-shadow:0 4px 12px rgba(0,0,0,0.2); 
+    font-size:13px; 
+    z-index:1000; 
+    width:260px; 
+}
+</style>
 </head>
-<body class="bg-blue-900 min-h-screen flex flex-col">
+<body class="bg-blue-200 font-sans">
+<?php include '../Includes/header.php'; ?>
+<br><br><br><br><br><br>
 
-  <?php include '../Includes/header.php'; ?>
+<main class="flex flex-col md:flex-row gap-6 px-6 py-8">
 
-  <main class="flex-grow flex justify-center items-start py-8 px-4">
-    <div class="w-full max-w-xl bg-white shadow-md p-6 rounded-md
-                sm:p-8
-                mx-0
-                sm:mx-auto">
-      <h2 class="text-2xl font-semibold mb-6 text-center sm:text-left text-white-900">Agendamento de Chave</h2>
+    <!-- Área de agendamento -->
+    <div class="w-full md:w-1/3 bg-white p-6 rounded-2xl shadow-lg">
+        <h2 class="text-2xl font-bold mb-5 text-blue-700">Agendar Chave</h2>
 
-      <?php if ($mensagem): ?>
-        <div class="bg-green-100 text-green-800 p-3 rounded mb-4"><?= htmlspecialchars($mensagem) ?></div>
-      <?php endif; ?>
+        <?php if($mensagem): ?>
+            <div class="bg-green-100 text-green-800 p-3 rounded-lg mb-4 shadow"><?= htmlspecialchars($mensagem) ?></div>
+        <?php endif; ?>
+        <?php if($erro): ?>
+            <div class="bg-red-100 text-red-800 p-3 rounded-lg mb-4 shadow"><?= htmlspecialchars($erro) ?></div>
+        <?php endif; ?>
 
-      <?php if ($erro): ?>
-        <div class="bg-red-100 text-red-800 p-3 rounded mb-4"><?= htmlspecialchars($erro) ?></div>
-      <?php endif; ?>
+        <form method="post" class="flex flex-col gap-4">
+            <div>
+                <label for="chave" class="font-medium mb-1 block">Chave:</label>
+                <input list="chavesDisponiveis" name="chave_id" id="chave" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400" placeholder="Digite para buscar..." required>
+                <datalist id="chavesDisponiveis">
+                    <?php foreach($chaves as $ch): ?>
+                        <option value="<?= $ch['id'] ?>"><?= htmlspecialchars($ch['texto']) ?></option>
+                    <?php endforeach; ?>
+                </datalist>
+            </div>
 
-      <form method="post" action="" class="flex flex-col gap-4">
+            <div>
+                <label for="data_inicio" class="font-medium mb-1 block">Data e Hora Início:</label>
+                <input type="datetime-local" name="data_inicio" id="data_inicio" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400" required>
+            </div>
 
-        <label class="block font-medium" for="chave">Chave:</label>
-        <select id="chave" name="chave" required class="w-full p-3 border rounded text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600">
-          <option value="">-- Selecione a chave --</option>
-          <?php foreach ($chaves as $ch): ?>
-            <option value="<?= $ch['id'] ?>"><?= htmlspecialchars($ch['texto']) ?></option>
-          <?php endforeach; ?>
-        </select>
+            <div>
+                <label for="data_fim" class="font-medium mb-1 block">Data e Hora Fim:</label>
+                <input type="datetime-local" name="data_fim" id="data_fim" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400" required>
+            </div>
 
-        <input type="hidden" name="cpf" value="<?= htmlspecialchars($cpfLogado) ?>">
-
-        <label class="block font-medium" for="data_inicio">Data e Hora Início:</label>
-        <input id="data_inicio" type="datetime-local" name="data_inicio" required
-          class="w-full p-3 border rounded text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600" />
-
-        <label class="block font-medium" for="data_fim">Data e Hora Fim:</label>
-        <input id="data_fim" type="datetime-local" name="data_fim" required
-          class="w-full p-3 border rounded text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600" />
-
-        <button type="submit"
-          class="mt-4 bg-blue-600 text-white font-semibold px-6 py-3 rounded hover:bg-blue-700 transition-colors">
-          Agendar
-        </button>
-      </form>
+            <button type="submit" class="mt-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-md transition-all">Agendar</button>
+        </form>
     </div>
-  </main>
 
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-white py-6 mt-auto">
-    <div class="max-w-7xl mx-auto text-center px-4">
-      <p>&copy; 2025 Chave Mestra | <a href="../Pages/contato.php" class="text-blue-400 hover:text-white">Contato</a></p>
+    <!-- Calendário -->
+    <div class="w-full md:w-2/3 bg-white p-6 rounded-2xl shadow-lg relative">
+        <div class="month-nav flex justify-between items-center mb-4">
+            <button id="prevMonth" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">&lt;</button>
+            <h2 id="monthYear" class="text-xl font-bold text-gray-700"></h2>
+            <button id="nextMonth" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">&gt;</button>
+        </div>
+
+        <div class="calendar-header text-gray-600">
+            <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
+        </div>
+
+        <div class="calendar"></div>
     </div>
-  </footer>
+</main>
+
+<script>
+const agendamentos = <?= json_encode($agendamentos) ?>;
+let currentDate = new Date();
+
+function formatDateTime(dt){
+    const d = new Date(dt);
+    const dia = String(d.getDate()).padStart(2,'0');
+    const mes = String(d.getMonth()+1).padStart(2,'0');
+    const ano = d.getFullYear();
+    const h = String(d.getHours()).padStart(2,'0');
+    const m = String(d.getMinutes()).padStart(2,'0');
+    return `${dia}/${mes}/${ano} ${h}:${m}`;
+}
+
+function daysInMonth(month, year){ return new Date(year, month+1,0).getDate(); }
+
+function buildCalendar(date){
+    const calendar = document.querySelector('.calendar');
+    calendar.innerHTML = '';
+
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+    document.getElementById('monthYear').textContent = monthNames[month] + ' ' + year;
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const totalDays = daysInMonth(month, year);
+
+    for(let i=0;i<firstDay;i++){ calendar.appendChild(document.createElement('div')); }
+
+    for(let day=1; day<=totalDays; day++){
+        const dayDiv = document.createElement('div');
+        dayDiv.className='day';
+        dayDiv.textContent = day;
+
+        const dayString = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+        const eventosDoDia = agendamentos.filter(a => dayString >= a.inicio.slice(0,10) && dayString <= a.fim.slice(0,10));
+
+        if(eventosDoDia.length > 0){
+            const dot = document.createElement('div');
+            dot.className='dot';
+            dayDiv.appendChild(dot);
+
+            const tooltip = document.createElement('div');
+            tooltip.className='tooltip';
+
+            // Botão de fechar
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = '×';
+            closeBtn.style.cssText = 'position:absolute; top:4px; right:8px; background:none; border:none; font-size:18px; cursor:pointer; color:#555;';
+            closeBtn.onclick = () => tooltip.style.display = 'none';
+            tooltip.appendChild(closeBtn);
+
+            eventosDoDia.forEach(ev => {
+                const info = document.createElement('div');
+                info.innerHTML = `
+                    <strong>${ev.chave}</strong><br>
+                    Início: ${formatDateTime(ev.inicio)}<br>
+                    Fim: ${formatDateTime(ev.fim)}
+                    <hr>
+                `;
+                tooltip.appendChild(info);
+            });
+
+            document.body.appendChild(tooltip);
+
+            dayDiv.addEventListener('click', ()=> {
+                const isVisible = tooltip.style.display === 'block';
+
+                // Fecha todos os outros tooltips
+                document.querySelectorAll('.tooltip').forEach(t => t.style.display = 'none');
+
+                if(!isVisible){
+                    const rect = dayDiv.getBoundingClientRect();
+                    tooltip.style.top = (window.scrollY + rect.top - tooltip.offsetHeight - 10) + 'px';
+                    tooltip.style.left = (window.scrollX + rect.left + rect.width/2 - tooltip.offsetWidth/2) + 'px';
+                    tooltip.style.display = 'block';
+                }
+            });
+        }
+
+        calendar.appendChild(dayDiv);
+    }
+}
+
+document.getElementById('prevMonth').addEventListener('click', ()=> {
+    currentDate.setMonth(currentDate.getMonth()-1);
+    buildCalendar(currentDate);
+});
+document.getElementById('nextMonth').addEventListener('click', ()=> {
+    currentDate.setMonth(currentDate.getMonth()+1);
+    buildCalendar(currentDate);
+});
+
+buildCalendar(currentDate);
+</script>
 
 </body>
 </html>

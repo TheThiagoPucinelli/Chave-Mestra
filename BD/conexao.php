@@ -4,7 +4,7 @@
 $servidor = "localhost"; // Endereço do servidor de banco de dados
 $usuario = "root";        // Usuário do banco
 $senha = "";              // Senha do banco (vazia aqui)
-$banco = "chave_mestra3"; // Nome do banco de dados
+$banco = "chave-mestra3"; // Nome do banco de dados
 
 // Cria uma nova conexão com o banco usando MySQLi
 $conexao = new mysqli($servidor, $usuario, $senha, $banco);

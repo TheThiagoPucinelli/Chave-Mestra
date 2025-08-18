@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['ac
     <link rel="stylesheet" href="../css/index.css" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-blue-320 min-h-screen flex flex-col">
+<body class="bg-blue-250 min-h-screen flex flex-col">
 
 <?php include '../Includes/header.php'; ?>
 

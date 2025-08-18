@@ -53,6 +53,7 @@
       md:flex md:flex-row md:space-x-6 md:space-y-0 md:items-center md:px-0 md:py-0
     ">
       <!-- Links do menu -->
+      <a href="../Pages/index.php" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Inicio</a>
       <a href="../Pages/contato.php" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Contato</a>
       <a href="../Pages/cadastro_chave.php" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Cadastro de Chaves</a>
       <a href="../Pages/registro.php" class="block text-gray-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded transition">Disponibilidade</a>
