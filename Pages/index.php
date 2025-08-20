@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['ac
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Gerenciamento de Chaves</title>
-    <link rel="shortcut icon" href="/IMG/2.png" type="image/x-icon" />
+    <link rel="icon" type="image/svg+xml" href="../IMG/logo.svg">
     <link rel="stylesheet" href="../css/index.css" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -274,3 +274,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['ac
 
 </body>
 </html>
+
