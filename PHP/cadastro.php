@@ -86,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8" />
     <title>Cadastro - Chave Mestra</title>
     <link rel="stylesheet" href="../css/login.css" />
+    <link rel="icon" type="image/svg+xml" href="../IMG/logo.svg">
     <style>
       /* Estilos para os grupos de input e botão de mostrar senha */
       .input-group {
@@ -226,3 +227,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </script>
 </body>
 </html>
+
