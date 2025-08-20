@@ -10,7 +10,7 @@
 
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="../IMG/cmpage.png">
+    <link rel="icon" type="image/svg+xml" href="../IMG/logo.svg">
 
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -74,3 +74,4 @@
 
 </body>
 </html>
+
