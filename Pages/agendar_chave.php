@@ -96,6 +96,7 @@ while($row = $res->fetch_assoc()){
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../IMG/logo.svg">
 <title>Agendamento e Calendário de Chaves</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
@@ -276,3 +277,4 @@ buildCalendar(currentDate);
 
 </body>
 </html>
+
