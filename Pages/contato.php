@@ -5,7 +5,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="../IMG/logo.svg">
+    <link rel="shortcut icon" href="CM.png" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chave Mestra</title>
     <link rel="stylesheet" href="../CSS/index.css"> 
@@ -69,4 +69,3 @@
 
 </body>
 </html>
-

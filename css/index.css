@@ -5,12 +5,6 @@
   box-sizing: border-box;
 }
 
-/* Estilo base do corpo da página */
-body {
-  font-family: 'Helvetica', sans-serif; /* Fonte principal */
-  background:#2f76ea; /* Fundo azul */
-}
-
 /* HEADER */
 /* Estilo do container do cabeçalho */
 .header {

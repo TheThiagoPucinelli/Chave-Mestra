@@ -67,7 +67,7 @@ processarLogin($conexao, $erroMsg, $loginSucesso, $tempoMaximo);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Chave Mestra - Login</title>
     <link rel="stylesheet" href="../css/login.css" />
-    <link rel="icon" type="image/svg+xml" href="../IMG/logo.svg">
+    <link rel="icon" type="image/png" href="/IMG/cmpage.png" />
     <style>
       /* Ajuste básico para botão de mostrar senha */
       .input-group {
@@ -169,4 +169,3 @@ processarLogin($conexao, $erroMsg, $loginSucesso, $tempoMaximo);
     </script>
 </body>
 </html>
-
