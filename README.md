@@ -1,105 +1,96 @@
+# 🔑 Chave Mestra | Master Key  
 
 ![Cm](https://github.com/user-attachments/assets/88589ee6-2294-4c62-b5c0-e7062e7c5f65)
 
----
-# Documentação (Em Desenvolvimento):
-https://docs.google.com/document/d/1Nmj_qny7QZUFK0y7AC45PeGdm0x9l3htqghiiyUTC8Y/edit?usp=sharing
----
-## Como usar:
-Tutorial Resumido do Sistema Chave Mestra
-(Necesário ter o banco de dados "chave-mestra2.sql").
-
-### Incio
-
-### abra a pagina http://127.0.0.1/Chave-Mestra-Version-1.4/PHP/login.php
-Você irá entrar automaticamente pedindo um login
-
-### Cadastro de Usuário
-Preencha nome, CPF, email e senha (12 a 30 caracteres). Cadastre e vá para login.
-
-### Login
-Use CPF ou email com a senha cadastrada para entrar.
-
-### Cadastro de Chaves
-Cadastre nome, número, descrição e quantidade da chave.
-
-### Buscar Chaves
-Veja todas as chaves numa lista e use o campo de busca para filtrar.
-
-### Agendar Chave
-Escolha a chave disponível, informe data/hora de início e fim, e confirme o agendamento.
-
-### Contato
-Use o formulário para enviar mensagens ao administrador.
-
-### 📘 Sobre o Projeto | About the Project
-
-### 🇧🇷 Português
-
-**Chave Mestra** é um sistema web criado para informatizar o controle de chaves de salas e laboratórios do Instituto Federal Sul-Rio-Grandense – Campus Pelotas Visconde da Graça (IFSUL CAVG), substituindo o processo manual por uma solução digital eficiente e segura.
-
-### 🇺🇸 English
-
-**Master Key** is a web-based system created to digitize the management of room and lab keys at the Federal Institute of Southern Rio Grande do Sul – Campus Pelotas Visconde da Graça (IFSUL CAVG), replacing the manual process with a secure and efficient digital solution.
+> 📌 Sistema Web para gerenciamento digital de chaves físicas do IFSUL CAVG.  
 
 ---
 
-## 🧑‍💻 Autores | Authors
-
-- Thiago Pucinelli Aires da Silva  
-- Leonardo Oliveira Garcia  
-- 📚 **Orientador | Advisor:** João Ladislau Barbará Lopes  
-- 🏫 **Instituição | Institution:** IFSUL CAVG  
-- 📅 **Data de Conclusão | Completion Date:** undefined
+## 📘 Documentação Oficial | Official Documentation  
+📄 [Documentação (em desenvolvimento)](https://docs.google.com/document/d/1Nmj_qny7QZUFK0y7AC45PeGdm0x9l3htqghiiyUTC8Y/edit?usp=sharing)  
 
 ---
 
-## 🎯 Objetivos | Goals
+## 🚀 Como Usar | How to Use  
 
-### 🇧🇷 Objetivo Geral  
-Desenvolver um sistema web responsivo que informatize o controle de chaves físicas.
+> ⚠️ Pré-requisito: importar o banco de dados `chave-mestra2.sql`.  
 
-### 🇺🇸 General Objective  
-Develop a responsive web system to digitize the control of physical keys.
+1. **Início**  
+   Acesse: [http://127.0.0.1/Chave-Mestra-Version-1.4/PHP/login.php](http://127.0.0.1/Chave-Mestra-Version-1.4/PHP/login.php).  
+
+2. **Cadastro de Usuário**  
+   Informe **nome, CPF, e-mail e senha (12 a 30 caracteres)** → cadastre-se → faça login.  
+
+3. **Login**  
+   Entre com **CPF ou e-mail + senha cadastrada**.  
+
+4. **Cadastro de Chaves**  
+   Registre: **nome, número, descrição e quantidade** da chave.  
+
+5. **Buscar Chaves**  
+   Consulte todas as chaves em lista ou utilize o campo de busca.  
+
+6. **Agendar Chave**  
+   Escolha uma chave disponível → defina **data/hora de início e fim** → confirme agendamento.  
+
+7. **Contato**  
+   Use o formulário integrado para enviar mensagens ao administrador.  
 
 ---
 
-## 🛠️ Funcionalidades | Features
+## 📖 Sobre o Projeto | About the Project  
 
-- ✅ Cadastro de chaves / Key registration  
-- ✅ Registro de retirada e devolução / Check-out and return logs  
+### 🇧🇷 Português  
+O **Chave Mestra** é um sistema web desenvolvido para informatizar o controle de chaves de salas e laboratórios do **Instituto Federal Sul-Rio-Grandense – Campus Pelotas Visconde da Graça (IFSUL CAVG)**, substituindo processos manuais por uma solução **digital, segura e eficiente**.  
+
+### 🇺🇸 English  
+**Master Key** is a web-based system designed to digitize the management of room and lab keys at the **Federal Institute of Southern Rio Grande do Sul – Campus Pelotas Visconde da Graça (IFSUL CAVG)**, replacing manual processes with a **secure and efficient digital solution**.  
+
+---
+
+## 🎯 Objetivos | Goals  
+
+- **🇧🇷 Objetivo Geral:** Desenvolver um sistema web responsivo para informatizar o controle de chaves físicas.  
+- **🇺🇸 General Objective:** Develop a responsive web system to digitize the management of physical keys.  
+
+---
+
+## 🛠️ Funcionalidades | Features  
+
+- ✅ Cadastro e gerenciamento de chaves / Key registration & management  
+- ✅ Retirada e devolução com registros / Check-out & return logs  
 - ✅ Autenticação de usuários / User authentication  
-- ✅ Histórico de movimentações / Movement history  
+- ✅ Histórico completo de movimentações / Movement history  
 - ✅ Reservas online com confirmação / Online reservations  
-- ✅ Interface responsiva / Responsive design  
-- ✅ Área administrativa com relatórios / Admin area with reports  
-- ✅ Logs de auditoria / Audit logs  
-- ✅ Criptografia e backups / Encryption and backups  
+- ✅ Interface responsiva e intuitiva / Responsive & intuitive UI  
+- ✅ Área administrativa com relatórios / Admin dashboard with reports  
+- ✅ Logs de auditoria e segurança / Audit logs & security features  
+- ✅ Criptografia de dados e backups automáticos / Data encryption & backups  
 
 ---
 
-## ⚙️ Tecnologias | Technologies
+## ⚙️ Tecnologias | Technologies  
 
 | Tecnologia | Technology | Finalidade | Purpose |
 |------------|------------|------------|---------|
-| PHP        | PHP        | Back-end   | Logic   |
-| MySQL      | MySQL      | Banco de dados | Database |
-| HTML/CSS   | HTML/CSS   | Interface  | Structure & Style |
-| JavaScript | JavaScript | Dinamismo  | Dynamic Features |
-| Tailwind   | Tailwind   | Responsividade | Responsive UI |
-| Scrum      | Scrum      | Metodologia ágil | Agile methodology |
+| **PHP**        | PHP        | Back-end   | Core logic |
+| **MySQL**      | MySQL      | Banco de dados | Database |
+| **HTML/CSS**   | HTML/CSS   | Interface  | Structure & Style |
+| **JavaScript** | JavaScript | Dinamismo  | Dynamic Features |
+| **Tailwind**   | Tailwind   | Responsividade | Responsive UI |
+| **Scrum**      | Scrum      | Metodologia ágil | Agile methodology |
 
 ---
 
-## 🧪 Testes | Testing
+## 🧪 Testes | Testing  
 
-- ✅ Testes unitários / Unit tests  
-- ✅ Testes funcionais / Functional tests  
-- ✅ Validação com usuários reais / Real user validation  
+- 🔹 Testes unitários / Unit testing  
+- 🔹 Testes funcionais / Functional testing  
+- 🔹 Validação com usuários reais / Real user validation  
 
 ---
 
-## 🧱 Estrutura do Banco | Database Structure
+## 🧱 Estrutura do Banco | Database Structure  
 
 | Entidade | Entity | Descrição |
 |----------|--------|-----------|
@@ -110,42 +101,50 @@ Develop a responsive web system to digitize the control of physical keys.
 
 ---
 
-## 📊 Relatórios e Logs | Reports and Logs
+## 📊 Relatórios e Logs | Reports and Logs  
 
-- 📤 Exportação do histórico / Export usage history  
-- 🔎 Filtros por data, usuário ou chave / Filters by date, user, or key  
-- 📋 Visualização de logs / Action log viewer  
-- ✅ Confirmação presencial de agendamentos / In-person confirmation  
-
----
-
-## 🧩 Requisitos Não Funcionais | Non-Functional Requirements
-
-- Interface intuitiva e responsiva / Intuitive and responsive UI  
-- Compatível com navegadores modernos / Modern browser compatibility  
-- Alta disponibilidade / High availability (≥ 99%)  
-- Estrutura modular / Modular codebase  
-- Acessibilidade e usabilidade / Accessibility & usability  
-- Backups periódicos e segurança / Periodic backups & security  
+- 📤 Exportação do histórico de movimentações  
+- 🔎 Filtros por data, usuário ou chave  
+- 📋 Visualização detalhada de logs  
+- ✅ Confirmação presencial de agendamentos  
 
 ---
 
-## 📜 Direitos Autorais | Copyright
+## 🧩 Requisitos Não Funcionais | Non-Functional Requirements  
+
+- 💻 Interface intuitiva e responsiva  
+- 🌍 Compatibilidade com navegadores modernos  
+- ⚡ Alta disponibilidade (≥ 99%)  
+- 🔗 Estrutura modular e escalável  
+- ♿ Acessibilidade e usabilidade garantidas  
+- 🔐 Segurança e backups periódicos  
+
+---
+
+## 🧑‍💻 Autores | Authors  
+
+- 👨‍💻 **Thiago Pucinelli Aires da Silva**  
+- 👨‍💻 **Leonardo Oliveira Garcia**  
+- 📚 **Orientador | Advisor:** João Ladislau Barbará Lopes  
+- 🏫 **Instituição | Institution:** IFSUL CAVG  
+- 📅 **Data de Conclusão | Completion Date:** *em desenvolvimento*  
+
+---
+
+## 📜 Direitos Autorais | Copyright  
 
 © 2025 Thiago Pucinelli & Leonardo Oliveira  
-Todos os direitos reservados. / All rights reserved.
+Todos os direitos reservados. | All rights reserved.  
 
-> ⚠️ Este repositório é disponibilizado **apenas para leitura e consulta técnica**.  
-> ⚠️ This repository is provided **for reading and technical reference only**.
-
-**Não constitui uma licença de uso. / It does not constitute a usage license.**
+⚠️ Este repositório é disponibilizado **apenas para leitura e consulta técnica**.  
+⚠️ This repository is provided **for reading and technical reference only**.  
 
 Violação constitui infração à **Lei nº 9.610/1998 (Brasil)**.  
-Violation constitutes infringement under **Brazilian Law No. 9,610/1998**.
+Violation constitutes infringement under **Brazilian Law No. 9,610/1998**.  
 
 ---
 
-## 📫 Contato | Contact
+## 📫 Contato | Contact  
 
-- ✉️ thiagopucinellisenac@gmail.com  
+- ✉️ **E-mail:** thiagopucinellisenac@gmail.com  
 - 💼 [LinkedIn – Thiago Pucinelli](https://www.linkedin.com/in/thiagopucinelli)  
