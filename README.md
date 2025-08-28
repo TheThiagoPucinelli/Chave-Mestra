@@ -2,12 +2,12 @@
 
 ![Cm](https://github.com/user-attachments/assets/88589ee6-2294-4c62-b5c0-e7062e7c5f65)
 
-> 📌 Sistema Web para gerenciamento digital de chaves físicas do IFSUL CAVG.  
+> 📌 Sistema Web para controle e gerenciamento digital do uso de chaves físicas no **IFSUL – Campus Pelotas Visconde da Graça (CAVG)**.  
 
 ---
 
 ## 📘 Documentação Oficial | Official Documentation  
-📄 [Documentação (em desenvolvimento)](https://docs.google.com/document/d/1Nmj_qny7QZUFK0y7AC45PeGdm0x9l3htqghiiyUTC8Y/edit?usp=sharing)  
+📄 [Versão completa do TCC (em desenvolvimento)](https://docs.google.com/document/d/1Nmj_qny7QZUFK0y7AC45PeGdm0x9l3htqghiiyUTC8Y/edit?usp=sharing)  
 
 ---
 
@@ -53,6 +53,13 @@ O **Chave Mestra** é um sistema web desenvolvido para informatizar o controle d
 - **🇧🇷 Objetivo Geral:** Desenvolver um sistema web responsivo para informatizar o controle de chaves físicas.  
 - **🇺🇸 General Objective:** Develop a responsive web system to digitize the management of physical keys.  
 
+### Objetivos Específicos | Specific Objectives  
+- Criar uma interface **intuitiva e responsiva**, acessível em diferentes dispositivos.  
+- Otimizar o **cadastro, reserva, retirada e devolução de chaves**.  
+- Implementar **segurança e autenticação** de usuários e administradores.  
+- Permitir **cadastro online de alunos e servidores**, com acesso ao histórico pessoal.  
+- Garantir **transparência e rastreabilidade** de todas as movimentações.  
+
 ---
 
 ## 🛠️ Funcionalidades | Features  
@@ -96,7 +103,7 @@ O **Chave Mestra** é um sistema web desenvolvido para informatizar o controle d
 |----------|--------|-----------|
 | `usuario` | user | Alunos, servidores, admins |
 | `chave` | key | Identificação da chave física |
-| `retirada` | checkout | Controle de retirada e devolução |
+| `emprestimo` | loan | Controle de retirada e devolução |
 | `reserva` | reservation | Agendamento com data e hora |
 
 ---
@@ -114,10 +121,27 @@ O **Chave Mestra** é um sistema web desenvolvido para informatizar o controle d
 
 - 💻 Interface intuitiva e responsiva  
 - 🌍 Compatibilidade com navegadores modernos  
-- ⚡ Alta disponibilidade (≥ 99%)  
-- 🔗 Estrutura modular e escalável  
-- ♿ Acessibilidade e usabilidade garantidas  
+- ⚡ Resposta em até **2 segundos**  
+- 📈 Estrutura modular e escalável  
+- ♿ Acessibilidade garantida  
 - 🔐 Segurança e backups periódicos  
+- 🔎 Auditoria de operações e criptografia de senhas  
+
+---
+
+## 📅 Cronograma | Timeline  
+
+| Mês | Etapas |
+|-----|---------|
+| Abril | Escolha do tema, modelagem inicial |
+| Maio | Documentação e início da prototipação |
+| Junho | Prototipação e início da implementação |
+| Julho | Prototipação + implementação |
+| Agosto | Implementação + testes iniciais |
+| Setembro | Testes e correções |
+| Outubro | Correções de erros |
+| Novembro | Ajustes finais |
+| Dezembro | Defesa do TCC |
 
 ---
 
@@ -125,7 +149,7 @@ O **Chave Mestra** é um sistema web desenvolvido para informatizar o controle d
 
 - 👨‍💻 **Thiago Pucinelli Aires da Silva**  
 - 👨‍💻 **Leonardo Oliveira Garcia**  
-- 📚 **Orientador | Advisor:** João Ladislau Barbará Lopes  
+- 📚 **Orientador | Advisor:** Prof. Dr. João Ladislau Barbará Lopes  
 - 🏫 **Instituição | Institution:** IFSUL CAVG  
 - 📅 **Data de Conclusão | Completion Date:** *em desenvolvimento*  
 
