@@ -9,30 +9,30 @@ https://docs.google.com/document/d/1Nmj_qny7QZUFK0y7AC45PeGdm0x9l3htqghiiyUTC8Y/
 Tutorial Resumido do Sistema Chave Mestra
 (Necesário ter o banco de dados "chave-mestra2.sql").
 
-# Incio
+### Incio
 
-# abra a pagina http://127.0.0.1/Chave-Mestra-Version-1.4/PHP/login.php
+### abra a pagina http://127.0.0.1/Chave-Mestra-Version-1.4/PHP/login.php
 Você irá entrar automaticamente pedindo um login
 
-# Cadastro de Usuário
+### Cadastro de Usuário
 Preencha nome, CPF, email e senha (12 a 30 caracteres). Cadastre e vá para login.
 
-# Login
+### Login
 Use CPF ou email com a senha cadastrada para entrar.
 
-# Cadastro de Chaves
+### Cadastro de Chaves
 Cadastre nome, número, descrição e quantidade da chave.
 
-# Buscar Chaves
+### Buscar Chaves
 Veja todas as chaves numa lista e use o campo de busca para filtrar.
 
-# Agendar Chave
+### Agendar Chave
 Escolha a chave disponível, informe data/hora de início e fim, e confirme o agendamento.
 
-# Contato
+### Contato
 Use o formulário para enviar mensagens ao administrador.
 
-## 📘 Sobre o Projeto | About the Project
+### 📘 Sobre o Projeto | About the Project
 
 ### 🇧🇷 Português
 
