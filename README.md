@@ -16,7 +16,7 @@
 > ⚠️ Pré-requisito: importar o banco de dados `chave-mestra3.sql`.  
 
 1. **Início**  
-   Acesse: [http://127.0.0.1/Chave-Mestra-Version-1.4/PHP/login.php](http://127.0.0.1/Chave-Mestra-Version-1.4/PHP/login.php).  
+   Acesse: [http://127.0.0.1/Chave-Mestra-Version-1.4/PHP/login.php](http://127.0.0.1/Chave-Mestra-Version-1.7/PHP/login.php).  
 
 2. **Cadastro de Usuário**  
    Informe **nome, CPF, e-mail e senha (12 a 30 caracteres)** → cadastre-se → faça login.  
