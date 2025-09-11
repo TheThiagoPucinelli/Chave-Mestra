@@ -1,18 +1,19 @@
 <?php
 session_start();
+include '../BD/conexao.php'; // conexão com o banco
 
-$tempoMaximo = 30 * 60; // 30 minutos em segundos (1800 segundos)
+$tempoMaximo = 30 * 60; // 30 minutos em segundos
 
-// Verifica se a sessão está iniciada com CPF e se o cookie de controle existe
-if (!isset($_SESSION['cpf']) || !isset($_COOKIE['usuario_logado'])) {
+// --- Verifica se a sessão está iniciada ---
+if (!isset($_SESSION['cpf'])) {
     header("Location: ../PHP/login.php?expired=1");
     exit;
 }
 
-// Verifica se o cookie de controle de sessão expirou
-if (time() > $_COOKIE['usuario_logado']) {
-    // Apaga o cookie, encerra a sessão e avisa o usuário
-    setcookie('usuario_logado', '', time() - 3600, "/");
+// --- Verifica expiração baseada em tempo da sessão ---
+if (!isset($_SESSION['ultimo_acesso'])) {
+    $_SESSION['ultimo_acesso'] = time();
+} else if ((time() - $_SESSION['ultimo_acesso']) > $tempoMaximo) {
     session_unset();
     session_destroy();
 
@@ -30,8 +31,22 @@ if (time() > $_COOKIE['usuario_logado']) {
     </html>';
     exit;
 } else {
-    // Renova o cookie para mais 30 minutos
-    setcookie('usuario_logado', time() + $tempoMaximo, time() + $tempoMaximo, "/");
-    $tempoRestante = $tempoMaximo * 1000; 
+    // Atualiza último acesso
+    $_SESSION['ultimo_acesso'] = time();
+}
+
+// --- Verifica se o usuário é administrador ---
+$cpfUsuario = $_SESSION['cpf'];
+$stmt = $conexao->prepare("SELECT tipo FROM usuario_adm WHERE cpf = ?");
+$stmt->bind_param("s", $cpfUsuario);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$isAdmin = ($result && $result->num_rows === 1);
+
+// --- Bloqueia acesso se não for admin (apenas páginas restritas) ---
+if (isset($paginaRestrita) && $paginaRestrita && !$isAdmin) {
+    header("Location: ../Pages/agendar.php");
+    exit;
 }
 ?>

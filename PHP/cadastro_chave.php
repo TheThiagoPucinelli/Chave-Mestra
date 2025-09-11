@@ -17,7 +17,7 @@ $resAdm = $admCheck->get_result();   // Obtém o resultado da consulta
 // Se não encontrar o CPF na tabela de administradores, bloqueia o acesso
 if ($resAdm->num_rows === 0) {
     echo "<p style='color:red; text-align:center;'>Você não tem permissão para cadastrar chaves.</p>";
-    exit; // Interrompe o script para não continuar o processamento
+    exit; // Interrompe o script para não continuar o processamentoa
 }
 
 // Se o formulário foi enviado via método POST
