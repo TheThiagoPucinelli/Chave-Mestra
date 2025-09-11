@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26/08/2025 às 22:27
+-- Tempo de geração: 11/09/2025 às 23:47
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,19 +42,16 @@ CREATE TABLE `chave` (
 --
 
 INSERT INTO `chave` (`id_chave`, `nome`, `numero_identificacao`, `descricao`, `quantidade`, `status`, `cpf_adm`) VALUES
-(1, 'lab21', '122', '21', 2, '0', '05932857005'),
-(2, 'lab3', '55', 'infomatica 2', 3, '0', '05932857005'),
-(23, 'LAB. 1', '01', 'Laboratório 1 - sala de informática', 2, '0', '05932857005'),
-(24, 'LAB. 2', '02', 'Laboratório 2 - sala de eletrônica', 3, '0', '05932857005'),
-(25, 'SALA REUNIÃO', '03', 'Sala de reunião principal', 1, '0', '05932857005'),
-(26, 'ESCRITÓRIO', '04', 'Chave do escritório administrativo', 1, '0', '05932857005'),
-(27, 'ARQUIVO', '05', 'Arquivo geral do departamento', 1, '0', '05932857005'),
-(28, 'COZINHA', '06', 'Acesso à cozinha da instituição', 1, '0', '05932857005'),
-(29, 'DEPÓSITO', '07', 'Depósito de materiais', 2, '0', '05932857005'),
-(30, 'LAB. QUÍMICA', '08', 'Laboratório de química', 2, '0', '05932857005'),
-(31, 'LAB. FÍSICA', '09', 'Laboratório de física', 2, '0', '05932857005'),
-(32, 'LAB. BIOLÓGICO', '10', 'Laboratório de biologia', 2, '0', '05932857005'),
-(33, 'lab7', '87', 'infomatica 6', 3, '0', '05932857005');
+(47, 'Chave Principal', 'CH001', 'Chave do prédio administrativo', 0, '0', '22222222222'),
+(48, 'Chave Laboratório', 'CH002', 'Chave do laboratório de informática', 0, '0', '22222222222'),
+(49, 'Chave Sala Reuniões', 'CH003', 'Chave da sala de reuniões 1º andar', 0, '0', '22222222222'),
+(50, 'Chave Arquivo', 'CH004', 'Chave do arquivo central', 0, '0', '22222222222'),
+(51, 'Chave Almoxarifado', 'CH005', 'Chave do almoxarifado de materiais', 0, '0', '22222222222'),
+(52, 'Chave Biblioteca', 'CH006', 'Chave da biblioteca central', 0, '0', '22222222222'),
+(53, 'Chave Estacionamento', 'CH007', 'Chave do portão do estacionamento', 0, '0', '22222222222'),
+(54, 'Chave Sala Professores', 'CH008', 'Chave da sala dos professores', 0, '0', '22222222222'),
+(55, 'Chave Laboratório Química', 'CH009', 'Chave do laboratório de química', 0, '0', '22222222222'),
+(56, 'Chave Cozinha', 'CH010', 'Chave da cozinha do prédio', 0, '0', '22222222222');
 
 -- --------------------------------------------------------
 
@@ -80,11 +77,9 @@ CREATE TABLE `emprestimo` (
 --
 
 INSERT INTO `emprestimo` (`id_emprestimo`, `data_reserva`, `data_inicio_reserva`, `data_fim_reserva`, `hora_data_retirada`, `hora_data_devolucao`, `id_chave`, `cpf_solicitante`, `cpf_adm`, `categoria`) VALUES
-(23, '2025-08-26', '2025-08-26 17:03:00', '2025-08-26 19:05:00', '2025-08-26 17:11:58', '2025-08-26 17:13:20', 28, '05932857005', '05932857005', 'aluno'),
-(24, '2025-08-26', '2025-08-26 17:11:00', '2025-08-26 20:32:00', '2025-08-26 17:16:31', '2025-08-26 17:21:21', 23, '05932857005', '05932857005', 'professor'),
-(25, '2025-08-26', '2025-08-26 20:33:00', '2025-08-26 08:59:00', '2025-08-26 17:13:17', '2025-08-26 17:15:52', 26, '05932857005', '05932857005', 'funcionario'),
-(26, '2025-08-26', '2025-08-26 17:16:00', '2025-08-26 21:20:00', '2025-08-26 17:21:17', NULL, 29, '05932857005', '05932857005', 'aluno'),
-(27, '2025-08-26', '2025-08-26 17:22:00', '2025-08-26 20:22:00', NULL, NULL, 27, '05932857005', NULL, NULL);
+(40, '2025-09-11', '2025-09-11 18:35:00', '2025-09-11 18:35:00', '2025-09-11 18:39:37', '2025-09-11 18:39:57', 51, '22222222222', '22222222222', 'aluno'),
+(41, '2025-09-11', '2025-09-11 18:36:00', '2025-09-20 18:36:00', '2025-09-11 18:39:46', '2025-09-11 18:39:59', 52, '11111111111', '22222222222', 'funcionario'),
+(42, '2025-09-11', '2025-09-11 18:45:00', '2025-09-11 18:45:00', NULL, NULL, 50, '11111111111', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -116,8 +111,8 @@ CREATE TABLE `solicitante` (
 --
 
 INSERT INTO `solicitante` (`cpf`) VALUES
-('01732472025'),
-('05932857005');
+('11111111111'),
+('22222222222');
 
 -- --------------------------------------------------------
 
@@ -137,8 +132,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`cpf`, `nome`, `senha`, `email`) VALUES
-('01732472025', 'Thiago usuario', '$2y$10$kkYMVP0Hhg5RmsSWlbOL7uC0Ihy6QiDNssMr5yyx3nG.7xk/QTqQ6', 'ts@gmail.com'),
-('05932857005', 'Thiago', '$2y$10$Y.4tcfVPYQS7xExC3A.Y0.nAwLa8UbEE9we6LFqg4omdoE.VGSegG', 'thiago.pucinelli.177@gmail.com');
+('11111111111', 'Thiago Teste', '$2y$10$/yFAeRD2kMGSMq7NEm7We.2RZ.c11NhAF.We20ZzDApGq.OTLJgvG', 'thiagopucinellisenac@gmail.com'),
+('22222222222', 'Thiago Pucinelli Aires Da Silva', '$2y$10$z0A8W2/hP4RBy7X74NMj9eiCw4bNhBwfbTEJrlbjnCr5qX0KiuHtO', 'thiago.pucinelli.177@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -156,7 +151,38 @@ CREATE TABLE `usuario_adm` (
 --
 
 INSERT INTO `usuario_adm` (`cpf`, `tipo`) VALUES
-('05932857005', 'Administrador');
+('22222222222', 'Administrador');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura stand-in para view `vw_historico_usuario`
+-- (Veja abaixo para a visão atual)
+--
+CREATE TABLE `vw_historico_usuario` (
+`id_emprestimo` int(11)
+,`data_reserva` date
+,`data_inicio_reserva` datetime
+,`data_fim_reserva` datetime
+,`hora_data_retirada` datetime
+,`hora_data_devolucao` datetime
+,`nome_chave` varchar(100)
+,`numero_identificacao` varchar(20)
+,`descricao` text
+,`categoria` varchar(50)
+,`cpf_solicitante` char(11)
+,`cpf_adm` varchar(11)
+,`status` varchar(12)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para view `vw_historico_usuario`
+--
+DROP TABLE IF EXISTS `vw_historico_usuario`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_historico_usuario`  AS SELECT `e`.`id_emprestimo` AS `id_emprestimo`, `e`.`data_reserva` AS `data_reserva`, `e`.`data_inicio_reserva` AS `data_inicio_reserva`, `e`.`data_fim_reserva` AS `data_fim_reserva`, `e`.`hora_data_retirada` AS `hora_data_retirada`, `e`.`hora_data_devolucao` AS `hora_data_devolucao`, `c`.`nome` AS `nome_chave`, `c`.`numero_identificacao` AS `numero_identificacao`, `c`.`descricao` AS `descricao`, `e`.`categoria` AS `categoria`, `e`.`cpf_solicitante` AS `cpf_solicitante`, `e`.`cpf_adm` AS `cpf_adm`, CASE WHEN `e`.`hora_data_retirada` is null THEN 'Reservado' WHEN `e`.`hora_data_retirada` is not null AND `e`.`hora_data_devolucao` is null THEN 'Em uso' WHEN `e`.`hora_data_devolucao` is not null THEN 'Devolvido' ELSE 'Desconhecido' END AS `status` FROM (`emprestimo` `e` join `chave` `c` on(`e`.`id_chave` = `c`.`id_chave`)) ;
 
 --
 -- Índices para tabelas despejadas
@@ -213,13 +239,13 @@ ALTER TABLE `usuario_adm`
 -- AUTO_INCREMENT de tabela `chave`
 --
 ALTER TABLE `chave`
-  MODIFY `id_chave` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_chave` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT de tabela `emprestimo`
 --
 ALTER TABLE `emprestimo`
-  MODIFY `id_emprestimo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_emprestimo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT de tabela `emprestimo_fixo`

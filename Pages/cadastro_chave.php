@@ -1,4 +1,68 @@
+<?php
+include __DIR__ . '/../PHP/verifica_login.php';
+include_once '../BD/conexao.php';
 
+$erroMsg = '';
+$successMsg = '';
+
+// Pegar CPF do usuário logado
+$cpf_adm = $_SESSION['cpf'] ?? '';
+if (!$cpf_adm) {
+    header('Location: ../Pages/login.php');
+    exit();
+}
+
+// --- VERIFICAÇÃO DE ADMINISTRADOR ---
+$stmtAdm = mysqli_prepare($conexao, "SELECT cpf FROM usuario_adm WHERE cpf = ?");
+mysqli_stmt_bind_param($stmtAdm, "s", $cpf_adm);
+mysqli_stmt_execute($stmtAdm);
+$resAdm = mysqli_stmt_get_result($stmtAdm);
+if (!$resAdm || mysqli_num_rows($resAdm) === 0) {
+    // Redireciona para a agenda se não for administrador
+    header('Location: ../Pages/agendar.php');
+    exit();
+}
+
+// --- PROCESSAR FORMULÁRIO ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = trim($_POST['nome'] ?? '');
+    $numero_identificacao = trim($_POST['numero_identificacao'] ?? '');
+    $descricao = trim($_POST['descricao'] ?? '');
+    $quantidade = (int)($_POST['quantidade'] ?? 0);
+
+    if (!$nome || !$numero_identificacao || $quantidade < 1) {
+        $erroMsg = "Preencha todos os campos obrigatórios corretamente!";
+    } else {
+        // Verifica se já existe a chave
+        $verifica = $conexao->prepare("SELECT * FROM chave WHERE numero_identificacao = ?");
+        $verifica->bind_param("s", $numero_identificacao);
+        $verifica->execute();
+        $resVerifica = $verifica->get_result();
+
+        if ($resVerifica->num_rows > 0) {
+            $erroMsg = "Número de identificação já cadastrado.";
+        } else {
+            $stmt = $conexao->prepare("
+                INSERT INTO chave (nome, numero_identificacao, descricao, quantidade, cpf_adm)
+                VALUES (?, ?, ?, ?, ?)
+            ");
+            if ($stmt) {
+                $stmt->bind_param("sssis", $nome, $numero_identificacao, $descricao, $quantidade, $cpf_adm);
+                if ($stmt->execute()) {
+                    $successMsg = "Chaveiro cadastrado com sucesso!";
+                } else {
+                    $erroMsg = "Erro ao cadastrar: " . $stmt->error;
+                }
+                $stmt->close();
+            } else {
+                $erroMsg = "Erro na preparação da consulta: " . $conexao->error;
+            }
+        }
+
+        $verifica->close();
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -8,63 +72,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chave Mestra - Cadastro de Chaveiros</title>
 
-    <!-- CSS Personalizado -->
-    <link rel="stylesheet" href="../css/chaves.css"> 
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="../css/chaves.css">
 
-     <!-- header -->
-  <?php include '../Includes/header.php'; ?>
+    <!-- Header -->
+    <?php include '../Includes/header.php'; ?>
 
-    <!-- Tailwind (opcional) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
-
-    <div class="login-container">
-        <div class="login-box">
-            <h2>Cadastro de Chaveiros</h2>
+<body class="bg-gray-50">
+    <div class="flex justify-center items-center min-h-screen p-4">
+        <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
+            <h2 class="text-2xl font-bold text-center text-black mb-6">Cadastro de Chaveiros</h2>
 
             <!-- Mensagens -->
             <?php if (!empty($erroMsg)): ?>
-                <p class="text-red-600 text-center font-semibold mb-4"><?= $erroMsg ?></p>
+                <div class="bg-red-100 text-red-700 p-3 rounded-lg mb-4 shadow"><?= htmlspecialchars($erroMsg) ?></div>
             <?php elseif (!empty($successMsg)): ?>
-                <p class="text-green-600 text-center font-semibold mb-4"><?= $successMsg ?></p>
+                <div class="bg-green-100 text-green-700 p-3 rounded-lg mb-4 shadow"><?= htmlspecialchars($successMsg) ?></div>
             <?php endif; ?>
 
-            <form action="cadastro_chave.php" method="POST">
-
-                <div class="input-group">
-                    <label for="nome">Nome</label>
-                    <input type="text" id="nome" name="nome" placeholder="Exemplo: LAB. 1" required>
+            <form action="" method="POST" class="space-y-4">
+                <div>
+                    <label for="nome" class="block font-medium mb-1">Nome</label>
+                    <input type="text" id="nome" name="nome" placeholder="Exemplo: LAB. 1" required
+                           class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400">
                 </div>
 
-                <div class="input-group">
-                    <label for="numero_identificacao">Número de Identificação</label>
-                    <input type="number" id="numero_identificacao" name="numero_identificacao" placeholder="Exemplo: 00" required pattern="\d+">
+                <div>
+                    <label for="numero_identificacao" class="block font-medium mb-1">Número de Identificação</label>
+                    <input type="number" id="numero_identificacao" name="numero_identificacao" placeholder="Exemplo: 00" required pattern="\d+"
+                           class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400">
                 </div>
 
-                <div class="input-group">
-                    <label for="descricao">Descrição</label>
-                    <input type="text" id="descricao" name="descricao" placeholder="Opcional">
+                <div>
+                    <label for="descricao" class="block font-medium mb-1">Descrição</label>
+                    <input type="text" id="descricao" name="descricao" placeholder="Opcional"
+                           class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400">
                 </div>
 
-                <div class="input-group">
-                    <label for="quantidade">Quantidade de chaves por chaveiro</label>
-                    <input type="number" id="quantidade" name="quantidade" placeholder="Exemplo: 2" required min="1">
+                <div>
+                    <label for="quantidade" class="block font-medium mb-1">Quantidade de chaves por chaveiro</label>
+                    <input type="number" id="quantidade" name="quantidade" placeholder="Exemplo: 2" required min="1"
+                           class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400">
                 </div>
 
-                <div class="submit-btn">
-                    <button type="submit">Cadastrar Chaveiro</button>
+                <div>
+                    <button type="submit"
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-md transition-all">
+                        Cadastrar Chaveiro
+                    </button>
                 </div>
-
             </form>
         </div>
     </div>
 
-     <!-- Footer -->
-<footer class="bg-gray-800 text-white py-6 mt-6">
-    <div class="max-w-7xl mx-auto text-center">
-        <p>&copy; 2025 Chave Mestra | <a href="../Pages/contato.php" class="text-blue-400 hover:text-white">Contato</a></p>
-    </div>
-</footer>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto text-center text-sm">
+            <p>&copy; 2025 <span class="text-white font-semibold">Chave Mestra</span>. Todos os direitos reservados. |
+                <a href="../Pages/contato.php" class="text-blue-400 hover:text-white transition">Contato</a>
+            </p>
+        </div>
+    </footer>
 </body>
 </html>

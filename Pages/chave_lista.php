@@ -66,10 +66,12 @@
 
     
     <!-- Footer -->
-<footer class="bg-gray-800 text-white py-6 mt-6">
-    <div class="max-w-7xl mx-auto text-center">
-        <p>&copy; 2025 Chave Mestra | <a href="../Pages/contato.php" class="text-blue-400 hover:text-white">Contato</a></p>
-    </div>
+<footer class="bg-gray-900 text-gray-400 py-6 mt-auto">
+  <div class="max-w-7xl mx-auto text-center text-sm">
+    <p>&copy; 2025 <span class="text-white font-semibold">Chave Mestra</span>. Todos os direitos reservados. | 
+      <a href="../Pages/contato.php" class="text-blue-400 hover:text-white transition">Contato</a>
+    </p>
+  </div>
 </footer>
 
 </body>
