@@ -1,0 +1,111 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    
+}
+
+
+/* Área sensível para ativar a tabela */
+.tabela-container {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    z-index: 1000;
+}
+
+/* Tabela em formato de envelope */
+.tabela {
+    position: fixed;
+    bottom: -192px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    background: linear-gradient(90deg, #1e90ff, #32cd32); /* Gradiente azul para verde */
+    transition: bottom 0.4s ease-in-out;
+    padding: 10px; /* Reduzi o padding da tabela */
+    color: white;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3); /* Sombra mais destacada */
+    border-radius: 15px 15px 0 0; /* Bordas arredondadas um pouco menores */
+    text-align: center;
+}
+
+/* Aba da tabela ajustada */
+.handle {
+    position: absolute;
+    top: -20px; /* Diminuiu a altura relativa da aba */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 30px; /* Aba um pouco menor */
+    background-color: #1e90ff; /* Azul vibrante */
+    color: white;
+    font-size: 14px; /* Fonte menor para acompanhar */
+    text-align: center;
+    line-height: 30px; /* Altura da aba ajustada */
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.handle:hover {
+    background-color: #32cd32; /* Verde brilhante no hover */
+}
+
+/* Estilo do título */
+h2 {
+    text-align: center;
+    color: #ffffff; /* Texto branco */
+    margin-bottom: 10px; /* Espaçamento inferior reduzido */
+    background: linear-gradient(90deg, #0078d7, #00b7ff); /* Gradiente atraente */
+    padding: 10px; /* Padding reduzido */
+    border-radius: 10px; /* Bordas arredondadas ajustadas */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Sombra leve */
+    font-size: 18px; /* Fonte menor */
+    font-weight: bold;
+    letter-spacing: 1px; /* Espaçamento entre letras */
+}
+
+/* Estilo da tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px; /* Espaçamento superior reduzido */
+}
+
+th, td {
+    padding: 10px; /* Padding menor para reduzir a altura total */
+    text-align: left;
+    border-bottom: 1px solid #fff;
+}
+
+th {
+    background-color: #1e90ff; /* Azul vibrante */
+    color: #fff;
+    font-weight: bold;
+}
+
+td {
+    background-color: #e6f7e6; /* Verde muito claro */
+    color: #2b3d4f;
+}
+
+td:hover {
+    background-color: #32cd32; /* Verde brilhante no hover */
+    color: #fff;
+}
+
+/* Animação sincronizada */
+.tabela-container:hover .tabela {
+    bottom: 0;
+}
+
+.tabela-container:hover .handle {
+    top: -20px; /* Posicionamento da aba ajustado para manter harmonia */
+}

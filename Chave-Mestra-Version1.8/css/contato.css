@@ -1,0 +1,168 @@
+/* Cor de fundo do body */
+/* Define a cor de fundo principal da página e estiliza texto básico */
+body {
+  background-color: #2f76ea !important; /* Força a cor de fundo azul */
+  color: #333; /* Cor do texto */
+  line-height: 1.6; /* Espaçamento entre linhas para melhor leitura */
+}
+
+/* Navegação */
+/* Estiliza a barra de navegação fixa no topo */
+nav {
+  background-color: #2b3d4f; /* Fundo azul escuro */
+  height: 80px; /* Altura fixa da barra */
+  display: flex; /* Layout flexível */
+  justify-content: space-between; /* Espaça itens entre extremos */
+  align-items: center; /* Alinha itens verticalmente ao centro */
+  padding: 0 20px; /* Espaçamento lateral */
+  position: fixed; /* Fixa no topo da tela */
+  top: 0; /* Topo da janela */
+  width: 100%; /* Largura total */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave para profundidade */
+  z-index: 10; /* Para ficar acima de outros elementos */
+}
+
+/* Listas dentro da navegação à esquerda e direita */
+/* Define layout em linha para listas de links */
+nav .nav-left ul, nav .nav-right ul {
+  display: flex; /* Exibe itens em linha */
+  list-style-type: none; /* Remove marcadores */
+}
+
+/* Espaçamento entre os itens das listas da navegação */
+nav .nav-left ul li, nav .nav-right ul li {
+  margin-right: 20px;
+}
+
+/* Estilo geral dos links da navegação */
+nav a {
+  color: #ffffff; /* Cor branca */
+  text-decoration: none; /* Remove sublinhado */
+  font-size: 16px; /* Tamanho da fonte */
+  padding: 8px 15px; /* Espaçamento interno */
+  border-radius: 5px; /* Bordas arredondadas */
+  transition: background 0.3s ease; /* Transição suave para hover */
+}
+
+/* Efeito hover nos links da navegação */
+nav a:hover {
+  background-color: #045d6d; /* Fundo azul mais escuro */
+  border-bottom: 2px solid #32b6cd; /* Linha azul clara abaixo */
+}
+
+/* Container do Formulário */
+/* Estilização do container que envolve formulário principal */
+.container {
+  margin-top: 120px; /* Distância do topo (considerando nav fixa) */
+  max-width: 600px; /* Largura máxima */
+  width: 100%; /* Responsivo */
+  background-color: #ffffff; /* Fundo branco */
+  padding: 30px; /* Espaçamento interno */
+  border-radius: 8px; /* Cantos arredondados */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra para profundidade */
+}
+
+/* Título principal do formulário */
+h3 {
+  text-align: center; /* Centralizado */
+  background-color: #2b3d4f; /* Fundo azul escuro */
+  color: #ffffff; /* Texto branco */
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Campos de texto do formulário */
+.texts {
+  width: 100%; /* Ocupa toda largura do container */
+  padding: 12px;
+  margin-bottom: 15px; /* Espaço entre campos */
+  border: 1px solid #ccc; /* Borda cinza clara */
+  border-radius: 6px;
+  font-size: 16px;
+  color: #333; /* Texto escuro */
+  transition: border 0.3s ease; /* Animação suave na borda */
+}
+
+/* Efeito foco nos campos de texto */
+.texts:focus {
+  border: 1px solid #2b3d4f; /* Borda azul escuro ao focar */
+  outline: none; /* Remove contorno padrão */
+}
+
+/* Botão principal */
+button {
+  width: 100%; /* Largura total do container */
+  padding: 12px;
+  background-color: #1e90ff; /* Fundo azul */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer; /* Cursor de clique */
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+/* Efeito hover do botão */
+button:hover {
+  background-color: #32cd32; /* Verde ao passar o mouse */
+}
+
+/* Footer */
+/* Estilo do rodapé fixo na parte inferior */
+footer {
+  background-color: #2b3d4f; /* Fundo azul escuro */
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 14px;
+  position: fixed; /* Fixado na parte inferior */
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para destacar */
+}
+
+/* Links no footer */
+footer a {
+  color: #f5f5f5; /* Cor clara */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+/* Hover dos links no footer */
+footer a:hover {
+  color: #32cd32; /* Verde ao passar o mouse */
+}
+
+/* Responsividade para telas até 768px */
+@media (max-width: 768px) {
+  /* Nav vertical em telas menores */
+  nav {
+    flex-direction: column;
+    padding: 20px;
+    height: auto; /* Altura automática para conteúdo */
+  }
+
+  /* Container do formulário ocupa mais espaço em telas pequenas */
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  /* Reduz o tamanho do título do formulário */
+  h3 {
+    font-size: 24px;
+  }
+
+  /* Reduz tamanho das fontes dos campos de texto */
+  .texts {
+    font-size: 14px;
+  }
+
+  /* Reduz tamanho da fonte do botão */
+  button {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,167 @@
+/* Resetando margens e padding */
+/* Remove margens e preenchimentos padrão e define box-sizing para facilitar o layout */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilos gerais do body */
+/* Define fonte, cor de fundo, cor do texto e espaçamento entre linhas */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #3884d0;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+}
+
+
+/* Caixa de login */
+/* Centraliza o formulário na tela */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Altura total da tela */
+  width: 100%;
+  padding-top: 80px; /* Evita sobreposição com header fixo */
+}
+
+/* Estilização da caixa do formulário */
+.login-box {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Título do formulário */
+h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Grupo de inputs */
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+/* Label dos inputs */
+.input-group label {
+  display: block;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+/* Foco no input */
+.input-group input:focus {
+  border-color: #1e90ff;
+  box-shadow: 0 0 5px rgba(30, 144, 255, 0.5); /* Sombra azul suave */
+}
+
+/* Estilo dos inputs */
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+/* Botão de envio */
+.submit-btn {
+  margin-top: 20px;
+}
+
+.submit-btn button {
+  background-color: #1e90ff;
+  color: #fff;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn button:hover {
+  background-color: #007bff; /* Azul mais escuro no hover */
+}
+
+/* Link para cadastro */
+.signup-link {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.signup-link a {
+  color: #1e90ff;
+  text-decoration: none;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 480px) {
+  /* Ajusta padding e largura da caixa de login */
+  .login-box {
+      padding: 20px;
+      max-width: 90%;
+  }
+
+  /* Reduz tamanho do título */
+  h2 {
+      font-size: 20px;
+  }
+
+  /* Ajusta padding de inputs e botão */
+  .input-group input,
+  .submit-btn button {
+      padding: 10px;
+  }
+}
+
+/* Responsividade para telas até 767px */
+@media (max-width: 767px) {
+  /* Esconde o header para telas menores */
+  .header {
+      display: none;
+  }
+
+  /* Remove padding top para container login */
+  .login-container {
+      padding-top: 0;
+  }
+
+  /* Ajusta container geral */
+  .container {
+      width: 90%;
+      padding: 20px;
+  }
+
+  /* Ajusta título e fontes */
+  h3 {
+      font-size: 24px;
+  }
+
+  .texts {
+      font-size: 14px;
+  }
+
+  button {
+      font-size: 14px;
+  }
+}

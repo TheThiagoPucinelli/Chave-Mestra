@@ -1,0 +1,343 @@
+/* RESET BÁSICO: Remove margens e paddings padrão e define box-sizing para facilitar o controle de layout */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* HEADER */
+/* Estilo do container do cabeçalho */
+.header {
+  background-color: #ffffff; /* Fundo branco */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  position: relative; /* Posicionamento relativo para controle interno */
+  width: 100%; /* Largura total */
+  top: 0; /* Fica no topo */
+  z-index: 10; /* Prioridade na sobreposição */
+}
+
+/* Container dentro do header para centralizar conteúdo e distribuir itens */
+.header .container {
+  max-width: 1200px; /* largura máxima */
+  margin: 0 auto; /* centraliza horizontalmente */
+  padding: 0 20px; /* espaçamento lateral */
+  display: flex; /* layout flexível */
+  align-items: center; /* alinhamento vertical */
+  justify-content: space-between; /* espaço entre elementos */
+  height: 80px; /* altura fixa */
+}
+
+/* Logo dentro do header */
+.logo img {
+  height: 60px; /* altura fixa da imagem do logo */
+}
+
+/* NAVIGATION */
+/* Lista de links do menu */
+.menu ul {
+  list-style: none; /* remove marcadores */
+  display: flex; /* organiza em linha */
+  gap: 20px; /* espaço entre os itens */
+}
+
+/* Links do menu */
+.menu ul li a {
+  text-decoration: none; /* remove sublinhado */
+  color: #333; /* cor do texto */
+  font-weight: 500; /* peso da fonte */
+  padding: 10px 15px; /* espaçamento interno */
+  border-radius: 4px; /* cantos arredondados */
+  background-color: #f0f4f7; /* cor de fundo clara */
+  transition: all 0.3s ease; /* transição suave para hover */
+}
+
+/* Efeito ao passar mouse sobre os links */
+.menu ul li a:hover {
+  background-color: #1e90ff; /* fundo azul */
+  color: #fff; /* texto branco */
+}
+
+/* HAMBURGER MENU */
+/* Ícone do menu hambúrguer, inicialmente escondido */
+.menu-icon {
+  display: none; /* escondido por padrão */
+  cursor: pointer; /* cursor de clique */
+  padding: 10px;
+}
+
+/* Barra principal do ícone hambúrguer */
+.menu-icon .navicon {
+  background: #333; /* cor da barra */
+  height: 3px; /* altura da barra */
+  width: 25px; /* largura da barra */
+  position: relative;
+  display: block;
+  transition: all 0.3s ease; /* animação suave */
+}
+
+/* Barras antes e depois da principal para formar o hambúrguer */
+.menu-icon .navicon::before,
+.menu-icon .navicon::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background: #333;
+  transition: all 0.3s ease;
+}
+
+/* Posicionamento da barra superior */
+.menu-icon .navicon::before {
+  top: -8px;
+}
+
+/* Posicionamento da barra inferior */
+.menu-icon .navicon::after {
+  top: 8px;
+}
+
+/* Checkbox para ativar o menu em mobile (invisível) */
+.menu-toggle {
+  display: none;
+}
+
+/* MEDIA QUERY: Responsividade para telas até 768px */
+@media (max-width: 768px) {
+  /* Menu vira coluna e fica escondido por padrão */
+  .menu ul {
+    flex-direction: column; /* coluna */
+    position: absolute;
+    top: 80px; /* abaixo do header */
+    left: 0;
+    right: 0;
+    background: #fff; /* fundo branco */
+    display: none; /* escondido inicialmente */
+  }
+
+  /* Transformação do ícone hambúrguer em "X" quando ativo */
+  .menu-toggle:checked + .menu-icon .navicon {
+    background: transparent; /* esconde a barra central */
+  }
+
+  .menu-toggle:checked + .menu-icon .navicon::before {
+    transform: rotate(-45deg);
+    top: 0;
+  }
+
+  .menu-toggle:checked + .menu-icon .navicon::after {
+    transform: rotate(45deg);
+    top: 0;
+  }
+
+  /* Exibe o menu quando checkbox está marcado */
+  .menu-toggle:checked ~ nav ul {
+    display: flex;
+  }
+
+  /* Mostra o ícone hambúrguer */
+  .menu-icon {
+    display: block;
+  }
+}
+
+/* VISIBILIDADE CONDICIONAL */
+/* Elementos visíveis apenas em desktop */
+.table-desktop {
+  display: block;
+}
+
+/* Elementos visíveis apenas em mobile, inicialmente escondidos */
+.form-mobile {
+  display: none;
+}
+
+/* MEDIA QUERY para telas menores que 767px */
+@media (max-width: 767px) {
+  /* Esconde tabela no mobile */
+  .table-desktop {
+    display: none;
+  }
+
+  /* Estilização do formulário mobile */
+  .form-mobile {
+    display: block;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 90%;
+  }
+
+  /* Título do formulário */
+  .form-title {
+    text-align: center;
+    color: #1e90ff;
+    margin-bottom: 15px;
+    font-size: 20px;
+  }
+
+  /* Espaçamento entre campos */
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  /* Labels dos campos */
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+  }
+
+  /* Inputs e selects do formulário */
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  /* Botão do formulário */
+  .form-mobile button {
+    width: 100%;
+    background-color: #1e90ff;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+  }
+
+  /* Efeito hover do botão */
+  .form-mobile button:hover {
+    background-color: #26e32f;
+  }
+}
+
+/* CONTAINER DA TABELA */
+.container-tab {
+  margin: 120px auto 50px auto; /* espaçamento superior e inferior */
+  max-width: 1200px; /* largura máxima */
+  width: 90%; /* largura responsiva */
+  background-color: #ffffff; /* fundo branco */
+  padding: 30px;
+  border-radius: 15px; /* cantos arredondados */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* sombra leve */
+}
+
+/* TÍTULO PRINCIPAL */
+h2 {
+  text-align: center;
+  color: #fff; /* texto branco */
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #0271e0, #496cab); /* fundo degradê azul */
+  padding: 15px 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* sombra para destaque */
+  font-size: 26px;
+  font-weight: bold;
+  width: 100%;
+}
+
+/* TABELA RESPONSIVA */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto; /* adiciona scroll horizontal se necessário */
+}
+
+/* Estilos da tabela */
+table {
+  width: 100%;
+  border-collapse: collapse; /* junta bordas */
+  margin-top: 20px;
+  min-width: 600px; /* largura mínima */
+}
+
+/* Espaçamento para opções de select */
+option {
+  margin-top: 5px;
+}
+
+/* Células da tabela */
+table th, table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd; /* borda clara */
+}
+
+/* Cabeçalho da tabela */
+table th {
+  background-color: #1e90ff; /* fundo azul */
+  color: #fff; /* texto branco */
+}
+
+/* Células da tabela */
+table td {
+  background-color: #e6f7e6; /* fundo verde claro */
+  color: #2b3d4f; /* texto escuro */
+}
+
+/* Inputs e selects dentro da tabela */
+table input, table select {
+  padding: 8px;
+  width: 90%;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+/* Botões dentro da tabela */
+table button {
+  padding: 10px 20px;
+  font-size: 14px;
+  margin-top: 10px;
+  background-color: #1e90ff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Hover do botão */
+table button:hover {
+  background-color: #26e32f;
+}
+
+/* Ajusta a altura mínima da página considerando o footer */
+.page-wrapper {
+  min-height: calc(100vh - 96px); /* altura total da tela menos altura do footer */
+}
+
+/* FOOTER */
+/* Estilo geral do rodapé */
+.footer {
+  background-color: #1f2937; /* fundo escuro */
+  color: white;
+  padding: 24px 0;
+  text-align: center;
+}
+
+/* Container do conteúdo do footer */
+.footer-container {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+/* Links no footer */
+.footer-link {
+  color: #60a5fa; /* azul claro */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+/* Hover dos links no footer */
+.footer-link:hover {
+  color: white;
+}
