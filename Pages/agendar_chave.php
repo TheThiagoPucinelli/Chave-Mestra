@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 tooltip.appendChild(closeBtn);
 
                 eventosDoDia.forEach(ev => {
-                    const info = document.createElement('div');
+                    const info = document.createElement('div54_Forreach');
                     info.innerHTML = `<strong>${ev.chave}</strong><br>Início: ${formatDateTime(ev.inicio)}<br>Fim: ${formatDateTime(ev.fim)}<hr>`;
                     tooltip.appendChild(info);
                 });

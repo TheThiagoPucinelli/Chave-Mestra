@@ -3,21 +3,22 @@ session_start();
 include '../BD/conexao.php';
 
 $erroMsg = "";
-$tempoMaximo = 30 * 60; // 30 minutos
+$tempoMaximo = 30 * 60; // 30 minutos (você pode usar isso para expirar sessão)
 
 function buscarUsuarioPorCpfOuEmail($conexao, $login) {
-    $stmt = $conexao->prepare("SELECT * FROM usuario WHERE cpf = ? OR email = ?");
-    $stmt->bind_param("ss", $login, $login);
+    $stmt = $conexao->prepare("SELECT * FROM usuario WHERE cpf = ? OR email = ? OR info_categoria = ?");
+    $stmt->bind_param("sss", $login, $login, $login); // Corrigido: 3 parâmetros
     $stmt->execute();
     return $stmt->get_result();
 }
+
 
 function senhaCorreta($senhaInformada, $senhaHash) {
     return password_verify($senhaInformada, $senhaHash);
 }
 
 function isAdmin($conexao, $cpf) {
-    $stmt = $conexao->prepare("SELECT * FROM usuario_adm WHERE cpf = ?");
+    $stmt = $conexao->prepare("SELECT 1 FROM usuario_adm WHERE cpf = ?");
     $stmt->bind_param("s", $cpf);
     $stmt->execute();
     $resultado = $stmt->get_result();
@@ -25,13 +26,13 @@ function isAdmin($conexao, $cpf) {
 }
 
 function iniciarSessaoUsuario($usuario, $admin) {
-    // Limpar sessão anterior
     session_regenerate_id(true);
-
     $_SESSION['cpf'] = $usuario['cpf'];
     $_SESSION['nome'] = $usuario['nome'];
     $_SESSION['email'] = $usuario['email'];
+    $_SESSION['info_categoria'] = $usuario['info_categoria'];
     $_SESSION['isAdmin'] = $admin ? true : false;
+    $_SESSION['last_activity'] = time(); // para controlar tempo da sessão
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -50,7 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $admin = isAdmin($conexao, $usuario['cpf']);
                 iniciarSessaoUsuario($usuario, $admin);
 
-                // Redirecionamento
                 if ($admin) {
                     header("Location: ../Pages/index.php");
                 } else {
@@ -66,6 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
+
 
 
 
@@ -97,15 +99,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <form action="login.php" method="POST">
                 <div class="input-group">
-                    <label for="login">CPF ou Email</label>
-                    <input type="text" id="login" name="login" placeholder="Digite seu CPF ou Email" maxlength="100" required
+                    <label for="login">CPF ou Email/Informação de sua Categoria</label>
+                    <input type="text" id="login" name="login" placeholder="Digite seu CPF ou Email" maxlength="150" required
                         value="<?= isset($_POST['login']) ? htmlspecialchars($_POST['login']) : '' ?>" />
                 </div>
 
                 <div class="input-group">
                     <label for="senha">Senha</label>
                     <input type="password" id="senha" name="senha" placeholder="Digite sua senha" maxlength="30" required />
-                    <button type="button" class="toggle-password" onclick="toggleSenha()">Mostrar</button>
+                    
                 </div>
 
                 <div class="submit-btn">
@@ -124,18 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <script>
-        function toggleSenha() {
-            const senhaInput = document.getElementById('senha');
-            const btn = document.querySelector('.toggle-password');
-            if (senhaInput.type === 'password') {
-                senhaInput.type = 'text';
-                btn.textContent = 'Ocultar';
-            } else {
-                senhaInput.type = 'password';
-                btn.textContent = 'Mostrar';
-            }
-        }
+    
     </script>
 </body>
 </html>

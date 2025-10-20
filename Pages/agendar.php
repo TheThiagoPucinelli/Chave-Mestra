@@ -3,124 +3,144 @@ include __DIR__ . '/../PHP/verifica_login.php';
 include_once '../BD/conexao.php';
 
 // --- Dados do usuário ---
-$cpfUsuario  = $_SESSION['cpf'];
-$nomeUsuario = $_SESSION['nome'];
+$cpfUsuario  = $_SESSION['cpf'] ?? null;
+$nomeUsuario = $_SESSION['nome'] ?? '';
 $isAdmin     = $_SESSION['isAdmin'] ?? false;
 
-// --- Função para formatar datas ---
-function formatDateTime($dt){
-    if(!$dt) return '-';
-    $d = new DateTime($dt);
-    return $d->format('d/m/Y H:i');
+// --- Função utilitária ---
+function formatDateTime($dt) {
+    if (!$dt) return '-';
+    return (new DateTime($dt))->format('d/m/Y H:i');
 }
 
-// --- Garantir que o usuário exista na tabela solicitante ---
-if ($cpfUsuario) {
-    $stmtCheck = $conexao->prepare("SELECT cpf FROM solicitante WHERE cpf = ?");
-    $stmtCheck->bind_param("s", $cpfUsuario);
-    $stmtCheck->execute();
-    $stmtCheck->store_result();
-
-    if ($stmtCheck->num_rows === 0) {
-        $stmtInsert = $conexao->prepare("INSERT INTO solicitante (cpf) VALUES (?)");
-        $stmtInsert->bind_param("s", $cpfUsuario);
-        $stmtInsert->execute();
-        $stmtInsert->close();
+// --- Função para verificar se CPF existe na tabela solicitante ---
+function garantirSolicitante(mysqli $conexao, string $cpf): void {
+    $stmt = $conexao->prepare("SELECT 1 FROM solicitante WHERE cpf = ?");
+    $stmt->bind_param("s", $cpf);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows === 0) {
+        $insert = $conexao->prepare("INSERT INTO solicitante (cpf) VALUES (?)");
+        $insert->bind_param("s", $cpf);
+        $insert->execute();
+        $insert->close();
     }
-    $stmtCheck->close();
+    $stmt->close();
 }
 
-// --- Buscar chaves disponíveis ---
-$chaves = [];
-$sql = "
-SELECT c.id_chave, c.nome, c.numero_identificacao, c.descricao
-FROM chave c
-WHERE c.status = 0
-AND c.id_chave NOT IN (
-    SELECT id_chave FROM emprestimo
-    WHERE hora_data_devolucao IS NULL
-)
-ORDER BY c.nome
-";
-$res = $conexao->query($sql);
-if($res){
-    while($row = $res->fetch_assoc()){
+// --- Função para buscar chaves disponíveis ---
+function buscarChavesDisponiveis(mysqli $conexao): array {
+    $sql = "
+        SELECT c.id_chave, c.nome, c.numero_identificacao, c.descricao
+        FROM chave c
+        WHERE c.status = 0
+        AND c.id_chave NOT IN (
+            SELECT id_chave FROM emprestimo WHERE hora_data_devolucao IS NULL
+        )
+        ORDER BY c.nome
+    ";
+    $res = $conexao->query($sql);
+    $chaves = [];
+
+    while ($row = $res->fetch_assoc()) {
         $descricao = $row['descricao'] ? " - " . $row['descricao'] : "";
         $chaves[] = [
             'id' => $row['id_chave'],
-            'texto' => $row['nome'] . " (" . $row['numero_identificacao'].")".$descricao
+            'texto' => "{$row['nome']} ({$row['numero_identificacao']}){$descricao}"
         ];
+    }
+
+    return $chaves;
+}
+
+// --- Função para registrar agendamento ---
+function registrarAgendamento(mysqli $conexao, int $id_chave, string $cpf, string $data_inicio, string $data_fim): string {
+    $stmt = $conexao->prepare("
+        INSERT INTO emprestimo 
+        (data_reserva, data_inicio_reserva, data_fim_reserva, hora_data_retirada, hora_data_devolucao, id_chave, cpf_solicitante)
+        VALUES (NOW(), ?, ?, NULL, NULL, ?, ?)
+    ");
+    if (!$stmt) return "Erro na preparação do agendamento.";
+
+    $stmt->bind_param("ssis", $data_inicio, $data_fim, $id_chave, $cpf);
+    if ($stmt->execute()) {
+        $stmt->close();
+        return ""; // Sem erro = sucesso
+    } else {
+        $erro = $stmt->error;
+        $stmt->close();
+        return "Erro ao agendar: $erro";
     }
 }
 
-// --- Processar agendamento ---
+// --- Função para buscar agendamentos ativos ---
+function buscarAgendamentosAtivos(mysqli $conexao): array {
+    $sql = "
+        SELECT e.data_inicio_reserva, e.data_fim_reserva, e.hora_data_retirada,
+               c.nome AS chave_nome, c.numero_identificacao
+        FROM emprestimo e
+        JOIN chave c ON e.id_chave = c.id_chave
+        WHERE e.hora_data_devolucao IS NULL
+        ORDER BY e.data_inicio_reserva
+    ";
+    $res = $conexao->query($sql);
+    $agendamentos = [];
+
+    while ($row = $res->fetch_assoc()) {
+        $inicio = $row['hora_data_retirada'] ?? $row['data_inicio_reserva'];
+        $agendamentos[] = [
+            'chave' => "{$row['chave_nome']} ({$row['numero_identificacao']})",
+            'inicio' => $inicio,
+            'fim' => $row['data_fim_reserva'],
+            'status' => $row['hora_data_retirada'] ? 'Retirada' : 'Reservada'
+        ];
+    }
+
+    return $agendamentos;
+}
+
+// --- Execução principal ---
 $mensagem = "";
 $erro = "";
 
+// Verifica e garante que o CPF está registrado como solicitante
+if ($cpfUsuario) {
+    garantirSolicitante($conexao, $cpfUsuario);
+}
+
+$chaves = buscarChavesDisponiveis($conexao);
+
+// --- Processar formulário ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id_chave = isset($_POST['chave_id']) ? (int) $_POST['chave_id'] : 0;
-    $data_inicio_raw = $_POST['data_inicio'] ?? '';
-    $data_fim_raw = $_POST['data_fim'] ?? '';
+    $id_chave = isset($_POST['chave_id']) ? (int)$_POST['chave_id'] : 0;
+    $data_inicio_raw = trim($_POST['data_inicio'] ?? '');
+    $data_fim_raw = trim($_POST['data_fim'] ?? '');
 
-    if (!$id_chave || !$cpfUsuario || !$data_inicio_raw || !$data_fim_raw) {
-        $erro = "Preencha todos os campos!";
+    if (!$id_chave || !$data_inicio_raw || !$data_fim_raw) {
+        $erro = "Todos os campos são obrigatórios.";
     } else {
-        $stmtCheck = $conexao->prepare("SELECT id_chave FROM chave WHERE id_chave = ? AND status = 0");
-        $stmtCheck->bind_param("i", $id_chave);
-        $stmtCheck->execute();
-        $stmtCheck->store_result();
+        // Verifica se a chave existe e está disponível
+        $stmt = $conexao->prepare("SELECT 1 FROM chave WHERE id_chave = ? AND status = 0");
+        $stmt->bind_param("i", $id_chave);
+        $stmt->execute();
+        $stmt->store_result();
 
-        if($stmtCheck->num_rows === 0){
-            $erro = "Chave inválida ou indisponível!";
+        if ($stmt->num_rows === 0) {
+            $erro = "Chave inválida ou indisponível.";
         } else {
             $data_inicio = date('Y-m-d H:i:s', strtotime($data_inicio_raw));
             $data_fim    = date('Y-m-d H:i:s', strtotime($data_fim_raw));
 
-            $stmtInsert = $conexao->prepare("
-                INSERT INTO emprestimo 
-                (data_reserva, data_inicio_reserva, data_fim_reserva, hora_data_retirada, hora_data_devolucao, id_chave, cpf_solicitante)
-                VALUES (NOW(), ?, ?, NULL, NULL, ?, ?)
-            ");
-            if($stmtInsert){
-                $stmtInsert->bind_param("ssis", $data_inicio, $data_fim, $id_chave, $cpfUsuario);
-                if($stmtInsert->execute()){
-                    $mensagem = "Agendamento realizado com sucesso!";
-                } else {
-                    $erro = "Erro ao agendar: ".$stmtInsert->error;
-                }
-                $stmtInsert->close();
-            } else {
-                $erro = "Erro na preparação da consulta: ".$conexao->error;
-            }
+            $erro = registrarAgendamento($conexao, $id_chave, $cpfUsuario, $data_inicio, $data_fim);
+            if (!$erro) $mensagem = "Agendamento realizado com sucesso!";
         }
-        $stmtCheck->close();
+        $stmt->close();
     }
 }
 
-// --- Buscar agendamentos ativos ---
-$agendamentos = [];
-$sql = "
-SELECT e.data_inicio_reserva, e.data_fim_reserva, e.hora_data_retirada,
-       c.nome AS chave_nome, c.numero_identificacao
-FROM emprestimo e
-JOIN chave c ON e.id_chave = c.id_chave
-WHERE e.hora_data_devolucao IS NULL
-ORDER BY e.data_inicio_reserva
-";
-$res = $conexao->query($sql);
-while($row = $res->fetch_assoc()){
-    $inicio = $row['hora_data_retirada'] ?? $row['data_inicio_reserva'];
-    $fim = $row['data_fim_reserva'];
-    $status = $row['hora_data_retirada'] ? 'Retirada' : 'Reservada';
-
-    $agendamentos[] = [
-        'chave' => $row['chave_nome'].' ('.$row['numero_identificacao'].')',
-        'inicio' => $inicio,
-        'fim' => $fim,
-        'status' => $status
-    ];
-}
+$agendamentos = buscarAgendamentosAtivos($conexao);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -191,7 +211,7 @@ while($row = $res->fetch_assoc()){
 <!-- Modal da tabela -->
 <div id="tabelaModal" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm hidden z-50 p-4 items-center justify-center">
     <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[80vh] overflow-auto p-6 shadow-lg">
-        <h2 class="text-2xl font-bold mb-5 text-blue-700">Tabela de Chaves e Reservas</h2>
+        <h2 class="text-2xl font-bold mb-5 text-blue-500">Tabela de Chaves de Reservas</h2>
         <button id="closeTabela" class="mb-4 text-red-600 hover:text-red-800 font-semibold">Fechar</button>
         <table class="w-full table-auto border-collapse text-sm">
             <thead>
@@ -223,11 +243,24 @@ while($row = $res->fetch_assoc()){
     </div>
 </div>
 
-<footer class="bg-gray-900 text-gray-400 py-6 mt-auto w-full">
-  <div class="max-w-7xl mx-auto text-center text-sm">
-    <p>&copy; 2025 <span class="text-white font-semibold">Chave Mestra</span>. Todos os direitos reservados. | 
-      <a href="../Pages/contato.php" class="text-blue-400 hover:text-white transition">Contato</a>
-    </p>
+<footer class="bg-gray-900 text-gray-400 py-3">
+  <div class="text-center text-sm mb-4">
+    &copy; 2025 <span class="text-white font-semibold">Chave Mestra</span>. Todos os direitos reservados. | 
+    <a href="../Pages/contato.php" class="text-blue-400 hover:text-white">Contato</a>
+  </div>
+  <div class="flex justify-center space-x-6">
+    <a href="https://github.com/TheThiagoPucinelli" target="_blank" aria-label="GitHub" class="hover:text-white transition-colors duration-300">
+      <!-- Ícone GitHub SVG -->
+      <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.263.82-.582 0-.288-.01-1.05-.015-2.06-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.237 1.838 1.237 1.07 1.835 2.807 1.305 3.492.997.108-.775.418-1.305.76-1.605-2.665-.3-5.466-1.334-5.466-5.932 0-1.31.468-2.38 1.236-3.22-.124-.303-.536-1.523.117-3.176 0 0 1.008-.322 3.3 1.23a11.5 11.5 0 0 1 3-.404c1.02.005 2.045.138 3 .404 2.29-1.552 3.297-1.23 3.297-1.23.655 1.653.243 2.873.12 3.176.77.84 1.235 1.91 1.235 3.22 0 4.61-2.804 5.628-5.475 5.922.43.37.823 1.103.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .32.217.698.825.58C20.565 21.796 24 17.297 24 12c0-6.63-5.37-12-12-12z"/>
+      </svg>
+    </a>
+    <a href="https://br.linkedin.com/in/thiagopucinelli" target="_blank" aria-label="LinkedIn" class="hover:text-white transition-colors duration-300">
+      <!-- Ícone LinkedIn SVG -->
+      <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4.98 3.5C3.34 3.5 2 4.82 2 6.45c0 1.56 1.27 2.94 3.05 2.94h.03c1.7 0 3.04-1.38 3.04-2.94-.03-1.63-1.35-2.95-3.14-2.95zM2.4 21.5h5.17V9H2.4v12.5zM9.57 9h4.95v1.7h.07c.69-1.3 2.38-2.67 4.9-2.67 5.24 0 6.2 3.45 6.2 7.93v9.27h-5.17v-8.23c0-1.97-.04-4.5-2.74-4.5-2.75 0-3.17 2.14-3.17 4.36v8.37H9.57V9z"/>
+      </svg>
+    </a>
   </div>
 </footer>
 

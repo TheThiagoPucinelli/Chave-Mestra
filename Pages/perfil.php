@@ -11,7 +11,8 @@ if (!$cpf_logado) {
 
 // --- Buscar dados do usuário ---
 $usuario = [];
-$stmt = mysqli_prepare($conexao, "SELECT cpf, nome, email FROM usuario WHERE cpf = ?");
+$stmt = mysqli_prepare($conexao, "SELECT cpf, nome, email, categoria, info_categoria FROM usuario WHERE cpf = ?");
+
 mysqli_stmt_bind_param($stmt, "s", $cpf_logado);
 mysqli_stmt_execute($stmt);
 $resultado = mysqli_stmt_get_result($stmt);
@@ -162,7 +163,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div id="perfilView" class="space-y-2">
             <p><span class="font-semibold text-gray-700">Nome:</span> <?= htmlspecialchars($usuario['nome'] ?? '-') ?></p>
             <p><span class="font-semibold text-gray-700">Email:</span> <?= htmlspecialchars($usuario['email'] ?? '-') ?></p>
-            <p><span class="font-semibold text-gray-700">Nível:</span> <?= htmlspecialchars($usuario['nivel'] ?? 'Usuário') ?></p>
+            <p><span class="font-semibold text-gray-700">Categoria:</span> <?= htmlspecialchars($usuario['categoria'] ?? '-') ?></p>
+            <p><span class="font-semibold text-gray-700">Nível:</span> <?= htmlspecialchars($usuario['nivel']) ?></p>
+            <p>
+                    <span class="font-semibold text-gray-700">
+                        <?php
+                            if ($usuario['categoria'] === 'aluno') {
+                                echo 'Matrícula';
+                            } elseif ($usuario['categoria'] === 'professor') {
+                                echo 'SIAPE';
+                            } elseif (!empty($usuario['categoria'])) {
+                                echo ucfirst($usuario['categoria']); // Capitaliza primeira letra, ex: "Servidor"
+                            } else {
+                                echo 'Categoria';
+                            }
+                        ?>:
+                    </span> <?= htmlspecialchars($usuario['info_categoria'] ?? '-') ?>
+                </p>
+
+
+
             <p>
                 <span class="font-semibold text-gray-700">CPF:</span> 
                 <span id="cpfText">***********</span>
@@ -204,7 +224,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <!-- Histórico de Empréstimos -->
-    <div class="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all mt-6">
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all mt-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-4">Histórico de Empréstimos</h2>
 
         <?php if(empty($historico)): ?>
@@ -254,11 +274,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </main>
 
-<footer class="bg-gray-900 text-gray-400 py-6 mt-auto">
-  <div class="max-w-7xl mx-auto text-center text-sm">
-    <p>&copy; 2025 <span class="text-white font-semibold">Chave Mestra</span>. Todos os direitos reservados. | 
-      <a href="../Pages/contato.php" class="text-blue-400 hover:text-white transition">Contato</a>
-    </p>
+<footer class="bg-gray-900 text-gray-400 py-3">
+  <div class="text-center text-sm mb-4">
+    &copy; 2025 <span class="text-white font-semibold">Chave Mestra</span>. Todos os direitos reservados. | 
+    <a href="../Pages/contato.php" class="text-blue-400 hover:text-white">Contato</a>
+  </div>
+  <div class="flex justify-center space-x-6">
+    <a href="https://github.com/TheThiagoPucinelli" target="_blank" aria-label="GitHub" class="hover:text-white transition-colors duration-300">
+      <!-- Ícone GitHub SVG -->
+      <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.263.82-.582 0-.288-.01-1.05-.015-2.06-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.838 1.237 1.838 1.237 1.07 1.835 2.807 1.305 3.492.997.108-.775.418-1.305.76-1.605-2.665-.3-5.466-1.334-5.466-5.932 0-1.31.468-2.38 1.236-3.22-.124-.303-.536-1.523.117-3.176 0 0 1.008-.322 3.3 1.23a11.5 11.5 0 0 1 3-.404c1.02.005 2.045.138 3 .404 2.29-1.552 3.297-1.23 3.297-1.23.655 1.653.243 2.873.12 3.176.77.84 1.235 1.91 1.235 3.22 0 4.61-2.804 5.628-5.475 5.922.43.37.823 1.103.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .32.217.698.825.58C20.565 21.796 24 17.297 24 12c0-6.63-5.37-12-12-12z"/>
+      </svg>
+    </a>
+    <a href="https://br.linkedin.com/in/thiagopucinelli" target="_blank" aria-label="LinkedIn" class="hover:text-white transition-colors duration-300">
+      <!-- Ícone LinkedIn SVG -->
+      <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4.98 3.5C3.34 3.5 2 4.82 2 6.45c0 1.56 1.27 2.94 3.05 2.94h.03c1.7 0 3.04-1.38 3.04-2.94-.03-1.63-1.35-2.95-3.14-2.95zM2.4 21.5h5.17V9H2.4v12.5zM9.57 9h4.95v1.7h.07c.69-1.3 2.38-2.67 4.9-2.67 5.24 0 6.2 3.45 6.2 7.93v9.27h-5.17v-8.23c0-1.97-.04-4.5-2.74-4.5-2.75 0-3.17 2.14-3.17 4.36v8.37H9.57V9z"/>
+      </svg>
+    </a>
   </div>
 </footer>
 
