@@ -8,7 +8,7 @@ $erro = "";
 // Buscar chaves agendadas
 $chaves = [];
 $sqlChaves = "
-    SELECT e.id_emprestimo, c.nome, c.numero_identificacao, u.nome AS nome_usuario, e.categoria
+    SELECT e.id_emprestimo, c.nome, c.numero_identificacao, u.nome AS nome_usuario
     FROM emprestimo e
     JOIN chave c ON e.id_chave = c.id_chave
     JOIN usuario u ON e.cpf_solicitante = u.cpf
@@ -19,9 +19,6 @@ $resultChaves = $conexao->query($sqlChaves);
 if ($resultChaves) {
     while ($row = $resultChaves->fetch_assoc()) {
         $texto = $row['nome'] . " (" . $row['numero_identificacao'] . ") - Reservado por: " . $row['nome_usuario'];
-        if (!empty($row['categoria'])) {
-            $texto .= " - Categoria: " . ucfirst($row['categoria']);
-        }
         $chaves[] = ['id' => $row['id_emprestimo'], 'texto' => $texto];
     }
 }
@@ -57,24 +54,25 @@ function encontrarIdPorTexto($lista, $texto) {
 // Processar retirada
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['acao'] === 'retirada') {
     $texto_chave = $_POST['chave_texto'] ?? '';
-    $categoria = $_POST['categoria'] ?? '';
     $cpf_adm = $_SESSION['cpf'] ?? '';
     $emprestimo_id = encontrarIdPorTexto($chaves, $texto_chave);
 
-    if (!$emprestimo_id || !$categoria) {
-        $erro = "Preencha todos os campos para retirada.";
+    if (!$emprestimo_id) {
+        $erro = "Selecione a chave para retirada.";
     } else {
         $stmt = $conexao->prepare("
             UPDATE emprestimo 
-            SET hora_data_retirada = NOW(), cpf_adm = ?, categoria = ?
+            SET hora_data_retirada = NOW(), cpf_adm = ?
             WHERE id_emprestimo = ? AND hora_data_retirada IS NULL
         ");
         if ($stmt) {
-            $stmt->bind_param("ssi", $cpf_adm, $categoria, $emprestimo_id);
+            $stmt->bind_param("si", $cpf_adm, $emprestimo_id);
             $stmt->execute();
             $mensagem = $stmt->affected_rows > 0 ? "Retirada da chave confirmada com sucesso." : "Esta retirada já foi confirmada ou não existe.";
             $stmt->close();
-        } else $erro = "Erro na preparação da consulta.";
+        } else {
+            $erro = "Erro na preparação da consulta.";
+        }
     }
 }
 
@@ -97,10 +95,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['acao'] === 'devolucao') {
             $stmt->execute();
             $mensagem = $stmt->affected_rows > 0 ? "Devolução registrada com sucesso." : "Não foi encontrada retirada ativa para essa chave.";
             $stmt->close();
-        } else $erro = "Erro na preparação da consulta.";
+        } else {
+            $erro = "Erro na preparação da consulta.";
+        }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">

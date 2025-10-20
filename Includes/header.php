@@ -266,7 +266,17 @@ if (empty($emprestimosPendentes)) {
               <?php foreach ($emprestimosPendentes as $emprestimo): ?>
                 <li class="border-b border-gray-200 pb-1">
                   <p><strong><?= htmlspecialchars($emprestimo['titulo']) ?></strong></p>
-                  <p class="text-sm text-gray-500">Devolver até: <?= date('d/m/Y', strtotime($emprestimo['data_fim_reserva'])) ?></p>
+                  <p class="text-sm text-gray-500">
+    <?php
+        if (is_null($emprestimo['hora_data_retirada'])) {
+            echo "Buscar a chave a partir de: " . date('d/m/Y, H:i:s', strtotime($emprestimo['data_inicio_reserva']));
+        } elseif (!is_null($emprestimo['hora_data_retirada']) && is_null($emprestimo['hora_data_devolucao'])) {
+            echo "Devolver até: " . date('d/m/Y, H:i:s', strtotime($emprestimo['data_fim_reserva']));
+        }
+    ?>
+</p>
+
+
                 </li>
               <?php endforeach; ?>
             </ul>
