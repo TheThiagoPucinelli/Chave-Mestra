@@ -1,4 +1,32 @@
-<?php include __DIR__ . '/../PHP/verifica_login.php'; ?>
+<?php include __DIR__ . '/../PHP/verifica_login.php'; 
+
+$mensagemAlerta = "";
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+$nome = $_POST['name'] ?? '';
+$email = $_POST['email'] ?? '';
+$mensagem = $_POST['message'] ?? '';
+
+$to = "leonardo.endure@gmail.com";
+$subject = "Contato - Chave Mestra";
+$body = "Nome:" . $nome ."\nE-mail:" . $email . "\nMensagem:" . $mensagem;
+
+$emailLimpo = str_replace(["\r", "\n"], '', $email);
+
+$headers = "From: leonardo.endure@gmail.com" . "\r\n" .
+           "Reply-To:" . $emailLimpo . "\r\n" .
+           "X-Mailer: PHP/" . phpversion();
+
+if(mail($to, $subject, $body, $headers)) {// 3. Em vez de 'echo', guarde a mensagem na variável
+        $mensagemAlerta = 'Mensagem enviada com sucesso! Entraremos em contato em breve.';
+    } else {
+        // 4. Guarde a mensagem de erro
+        $mensagemAlerta = 'Erro ao enviar a mensagem. Por favor, tente novamente mais tarde.';
+}
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -39,6 +67,13 @@
         </p>
         <div class="mt-4 w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-600 mx-auto rounded-full"></div>
       </div>
+
+      <?php if (!empty($mensagemAlerta)): ?>
+      <script>
+      alert('<?php echo addslashes($mensagemAlerta); ?>');
+      </script>
+      <?php endif; ?>
+      <form action="" method="POST" class="space-y-6">
 
       <!-- Form -->
       <form action="" method="POST" class="space-y-6">

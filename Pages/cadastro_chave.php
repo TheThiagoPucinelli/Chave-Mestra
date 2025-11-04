@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="../IMG/cmpage.png" type="image/png">
+    <link rel="icon" type="image/png" href="../IMG/CM.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chave Mestra - Cadastro de Chaveiros</title>
 

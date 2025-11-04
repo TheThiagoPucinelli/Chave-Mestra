@@ -97,6 +97,7 @@ while($row = $res->fetch_assoc()){
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="../IMG/CM.png">
 <title>Agendamento e Calendário de Chaves</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
@@ -241,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 tooltip.appendChild(closeBtn);
 
                 eventosDoDia.forEach(ev => {
-                    const info = document.createElement('div54_Forreach');
+                    const info = document.createElement('div');
                     info.innerHTML = `<strong>${ev.chave}</strong><br>Início: ${formatDateTime(ev.inicio)}<br>Fim: ${formatDateTime(ev.fim)}<hr>`;
                     tooltip.appendChild(info);
                 });
