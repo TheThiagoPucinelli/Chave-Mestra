@@ -17,7 +17,7 @@
 ---
 
 ## 📘 Documentação Oficial | Official Documentation  
-[Versão Completa do TCC (em desenvolvimento)](https://docs.google.com/document/d/1Nmj_qny7QZUFK0y7AC45PeGdm0x9l3htqghiiyUTC8Y/edit?usp=sharing)  
+[Versão Completa do TCC (em desenvolvimento)]([https://docs.google.com/document/d/1Nmj_qny7QZUFK0y7AC45PeGdm0x9l3htqghiiyUTC8Y/edit?usp=sharing](https://docs.google.com/document/d/1rerUFMhpeYbTao0pfDUAvA5MtV_Lc7n7PMwxQWIdLcY/edit?usp=sharing))  
 
 ---
 
