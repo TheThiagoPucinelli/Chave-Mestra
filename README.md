@@ -3,7 +3,7 @@
 ![Banner Chave Mestra](https://github.com/user-attachments/assets/88589ee6-2294-4c62-b5c0-e7062e7c5f65)
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow?style=for-the-badge">
+  <img src="https://img.shields.io/badge/Status-Projeto%20Pronto-green?style=for-the-badge">
   <img src="https://img.shields.io/badge/Linguagem-PHP-blue?style=for-the-badge">
   <img src="https://img.shields.io/badge/Banco%20de%20Dados-MySQL-orange?style=for-the-badge">
   <img src="https://img.shields.io/badge/Framework-TailwindCSS-06B6D4?style=for-the-badge">
