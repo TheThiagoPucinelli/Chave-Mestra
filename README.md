@@ -26,7 +26,7 @@
 **Pré-requisito:** importar o banco de dados `chave-mestra3.sql` antes da execução.  
 
 1. **Acesso Inicial**  
-   http://127.0.0.1/Chave-Mestra-Version1.9/PHP/login.php  
+   http://127.0.0.1/Chave-Mestra-Version1.8/PHP/login.php  
 
 2. **Cadastro de Usuário**  
    - Informe **Nome, CPF, E-mail e Senha (12–30 caracteres)**  
