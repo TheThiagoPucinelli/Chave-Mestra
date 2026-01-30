@@ -1,9 +1,35 @@
-# 🔐 Chave Mestra – Sistema de Controle de Chaves / Master Key – Key Management System
 
-> 🇧🇷 Sistema web desenvolvido para controle de chaves físicas no IFSUL CAVG  
-> 🇺🇸 Web-based system for managing physical keys at IFSUL CAVG
+![Inserir um subtítulo (1)](https://github.com/user-attachments/assets/b62f42c8-346c-4c82-864b-d11542caeffe)
+
 
 ---
+
+## Como usar:
+Tutorial Resumido do Sistema Chave Mestra
+(Necesário ter o banco de dados "chave-mestra2.sql").
+
+# Incio
+
+# abra a pagina http://127.0.0.1/Chave-Mestra-Version-1.4/PHP/login.php
+Você irá entrar automaticamente pedindo um login
+
+# Cadastro de Usuário
+Preencha nome, CPF, email e senha (12 a 30 caracteres). Cadastre e vá para login.
+
+# Login
+Use CPF ou email com a senha cadastrada para entrar.
+
+# Cadastro de Chaves
+Cadastre nome, número, descrição e quantidade da chave.
+
+# Buscar Chaves
+Veja todas as chaves numa lista e use o campo de busca para filtrar.
+
+# Agendar Chave
+Escolha a chave disponível, informe data/hora de início e fim, e confirme o agendamento.
+
+# Contato
+Use o formulário para enviar mensagens ao administrador.
 
 ## 📘 Sobre o Projeto | About the Project
 

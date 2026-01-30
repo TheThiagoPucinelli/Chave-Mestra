@@ -6,12 +6,12 @@ $erroMsg = "";
 $loginSucesso = false;
 $tempoMaximo = 30 * 60; // 30 minutos em segundos
 
-function buscarUsuarioPorCpf($conexao, $cpf) {
-    $stmt = $conexao->prepare("SELECT * FROM usuario WHERE cpf = ?");
+function buscarUsuarioPorCpfOuEmail($conexao, $login) {
+    $stmt = $conexao->prepare("SELECT * FROM usuario WHERE cpf = ? OR email = ?");
     if (!$stmt) {
         die("Erro ao preparar a consulta: " . $conexao->error);
     }
-    $stmt->bind_param("s", $cpf);
+    $stmt->bind_param("ss", $login, $login);
     $stmt->execute();
     return $stmt->get_result();
 }
@@ -34,15 +34,15 @@ function processarLogin($conexao, &$erroMsg, &$loginSucesso, $tempoMaximo) {
         return;
     }
 
-    $cpf = trim($_POST['cpf'] ?? '');
+    $login = trim($_POST['login'] ?? '');
     $senha = $_POST['senha'] ?? '';
 
-    if (empty($cpf) || empty($senha)) {
+    if (empty($login) || empty($senha)) {
         $erroMsg = "Por favor, preencha todos os campos.";
         return;
     }
 
-    $resultado = buscarUsuarioPorCpf($conexao, $cpf);
+    $resultado = buscarUsuarioPorCpfOuEmail($conexao, $login);
 
     if ($resultado && $resultado->num_rows === 1) {
         $usuario = $resultado->fetch_assoc();
@@ -54,7 +54,7 @@ function processarLogin($conexao, &$erroMsg, &$loginSucesso, $tempoMaximo) {
             $erroMsg = "Senha incorreta. Tente novamente.";
         }
     } else {
-        $erroMsg = "CPF não encontrado. Verifique e tente novamente.";
+        $erroMsg = "Usuário não encontrado. Verifique CPF ou e-mail e tente novamente.";
     }
 }
 
@@ -85,6 +85,14 @@ processarLogin($conexao, $erroMsg, $loginSucesso, $tempoMaximo);
         color: #555;
         user-select: none;
       }
+      .erro-login {
+          background-color: #f8d7da;
+          color: #842029;
+          padding: 10px;
+          margin-bottom: 15px;
+          border-radius: 4px;
+          border: 1px solid #f5c2c7;
+      }
     </style>
 </head>
 <body>
@@ -94,22 +102,21 @@ processarLogin($conexao, $erroMsg, $loginSucesso, $tempoMaximo);
 
             <?php if ($erroMsg): ?>
                 <div class="erro-login">
-                    <?php echo htmlspecialchars($erroMsg); ?>
+                    <?= htmlspecialchars($erroMsg) ?>
                 </div>
             <?php endif; ?>
 
             <form action="login.php" method="POST">
                 <div class="input-group">
-                    <label for="cpf">CPF</label>
+                    <label for="login">CPF ou Email</label>
                     <input
                         type="text"
-                        id="cpf"
-                        name="cpf"
-                        placeholder="Digite seu CPF"
-                        maxlength="11"
-                        pattern="\d{11}"
-                        title="Digite exatamente 11 números"
+                        id="login"
+                        name="login"
+                        placeholder="Digite seu CPF ou Email"
+                        maxlength="100"
                         required
+                        value="<?= isset($_POST['login']) ? htmlspecialchars($_POST['login']) : '' ?>"
                     />
                 </div>
 

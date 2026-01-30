@@ -48,11 +48,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param("ssss", $nome, $cpf, $email, $senha_hash);
 
             if ($stmt->execute()) {
-                $_SESSION['nome'] = $nome;
-                $_SESSION['email'] = $email;
-                $_SESSION['cpf'] = $cpf;
+                // Mensagem de sucesso na sessão
+                $_SESSION['msg_sucesso'] = "Cadastro realizado com sucesso! Agora faça login.";
 
-                header("Location: index.php");
+                // Redireciona para login.php
+                header("Location: login.php");
                 exit;
             } else {
                 $erroMsg = "Erro ao cadastrar: " . $stmt->error;
@@ -66,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -73,7 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Cadastro - Chave Mestra</title>
     <link rel="stylesheet" href="../css/login.css" />
     <style>
-      /* Botão para mostrar senha */
       .input-group {
           position: relative;
           margin-bottom: 1rem;
@@ -89,6 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           color: #555;
           user-select: none;
       }
+      .erro-login {
+          background-color: #f8d7da;
+          color: #842029;
+          padding: 10px;
+          margin-bottom: 15px;
+          border-radius: 4px;
+          border: 1px solid #f5c2c7;
+      }
     </style>
 </head>
 <body>
@@ -98,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <?php if ($erroMsg): ?>
                 <div class="erro-login">
-                    <?php echo htmlspecialchars($erroMsg); ?>
+                    <?= htmlspecialchars($erroMsg) ?>
                 </div>
             <?php endif; ?>
 
@@ -114,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         title="Apenas letras e espaços, até 60 caracteres" 
                         placeholder="Digite seu nome completo" 
                         required 
-                        value="<?php echo isset($nome) ? htmlspecialchars($nome) : ''; ?>"
+                        value="<?= isset($nome) ? htmlspecialchars($nome) : '' ?>"
                     >
                 </div>
 
@@ -129,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         pattern="\d{11}" 
                         title="Digite exatamente 11 números" 
                         required 
-                        value="<?php echo isset($cpf) ? htmlspecialchars($cpf) : ''; ?>"
+                        value="<?= isset($cpf) ? htmlspecialchars($cpf) : '' ?>"
                     >
                 </div>
 
@@ -141,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         name="email" 
                         placeholder="exemplo@dominio.com" 
                         required 
-                        value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>"
+                        value="<?= isset($email) ? htmlspecialchars($email) : '' ?>"
                     >
                 </div>
 
